@@ -150,26 +150,26 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
             }
         }
 
+         Task task = new Task(String.valueOf(mCurrentTaskId),title,email,allDay,String.valueOf(mCurrentTaskId),priority,
+                category,"PENDING",start,end,"0.0","0.0",
+                description,color);
 
-//        Task task = new Task(Integer.toString(mCurrentTaskId),Integer.toString(mCurrentTaskId), title, email, allDay, priority, category,
-//                start,end,description,color);
-//
-//        mRepository.createTask(task, new TasksDataSource.DBCallback() {
-//            @Override
-//            public void success() {
-//                Log.d(TAG, "success: TASK ADDED!");
-//                String duration = "Today at "+timeStart+" to "+timeEnd;
-//                updateCurrentTaskId();
-//                mView.showCalendarView(task.getTitle(),duration,mCurrentTaskId,Long.parseLong(start),priority);
-//            }
-//
-//            @Override
-//            public void failure() {
-//                Log.d(TAG, "failure: BOOOOOO");
-//            }
-//        });
-//        Log.d(TAG, "saveNewTask:"+task.toString());
-////               mView.showCalendarView();
+        mRepository.createTask(task, new TasksDataSource.DBCallback() {
+            @Override
+            public void success() {
+                Log.d(TAG, "success: TASK ADDED!");
+                String duration = "Today at "+timeStart+" to "+timeEnd;
+                updateCurrentTaskId();
+
+                mView.showCalendarView(task.getTitle(),duration,mCurrentTaskId,Long.parseLong(start),priority);
+            }
+
+            @Override
+            public void failure() {
+                Log.d(TAG, "failure: BOOOOOO");
+            }
+        });
+        Log.d(TAG, "saveNewTask:"+task.toString());
     }
 
     @Override
