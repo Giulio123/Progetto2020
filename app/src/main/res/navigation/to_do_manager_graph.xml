@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/to_do_manager_graph"
+    app:startDestination="@id/calendarFragment">
+
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="it.guaraldi.to_dotaskmanager.ui.calendar.CalendarFragment"
+        android:label="calendar_fragment"
+        tools:layout="@layout/content_calendar_fragment" >
+        <action
+            android:id="@+id/action_calendarFragment_to_editTaskFragment"
+            app:destination="@id/editTaskFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+           />
+        <action
+            android:id="@+id/action_calendarFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_taskDetailsFragment"
+            app:destination="@id/taskDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="it.guaraldi.to_dotaskmanager.ui.login.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment"
+            app:popUpTo="@id/calendarFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="it.guaraldi.to_dotaskmanager.ui.registration.RegistrationFragment"
+        android:label="registration_fragment"
+        tools:layout="@layout/registration_fragment" >
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTaskFragment"
+        android:name="it.guaraldi.to_dotaskmanager.ui.edittask.EditTaskFragment"
+        android:label="edit_task_fragment"
+        tools:layout="@layout/edit_task_fragment" >
+        <action
+            android:id="@+id/action_editTaskFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment"
+            app:popUpTo="@id/calendarFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_editTaskFragment_to_personalizedFragment"
+            app:destination="@id/personalizedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalizedFragment"
+        android:name="it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedFragment"
+        android:label="personalized_fragment"
+        tools:layout="@layout/personalized_fragment" >
+        <action
+            android:id="@+id/action_personalizedFragment_to_editTaskFragment"
+            app:destination="@id/editTaskFragment"
+            app:popUpTo="@id/personalizedFragment"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/blankFragment"
+        android:name="it.guaraldi.to_dotaskmanager.BlankFragment"
+        android:label="fragment_blank"
+        tools:layout="@layout/fragment_blank" />
+    <fragment
+        android:id="@+id/taskDetailsFragment"
+        android:name="it.guaraldi.to_dotaskmanager.taskdetails.TaskDetailsFragment"
+        android:label="TaskDetailsFragment" >
+        <action
+            android:id="@+id/action_taskDetailsFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment" />
+    </fragment>
+</navigation>

@@ -1,0 +1,204 @@
+<resources>
+    <string name="app_name">TO-DO Task Manager</string>
+    <string name="edit_task_view">Create Task</string>
+    <!--EditTaskFragment-->
+    <string name="hint_title">Add title</string>
+    <string name="user_email_fake">user@email.com</string>
+    <string name="all_day_text">For the day</string>
+    <string name="start_date_fake">Sab 11 Giu 2019</string>
+    <string name="start_hour_fake">11:00</string>
+    <string name="end_hour_fake">12:00</string>
+    <string name="repeat_task_text">Not repeat</string>
+    <string name="add_position_task_hint">Add position</string>
+    <string name="add_description">Add description</string>
+    <string name="priority_text">Priority</string>
+    <string name="category_task">Category</string>
+    <!--REPEAT MENU-->
+    <string name="dont_repeat">Don\'t repeat</string>
+    <string name="personalized">Personalized&#8230;</string>
+    <string name="every_year">Every year</string>
+    <string name="every_month">Every month</string>
+    <string name="every_week">Every week</string>
+    <string name="every_day">Every day</string>
+    <!--ARRAY-->
+    <string-array name="repeater">
+        <item>@string/dont_repeat</item>
+        <item>@string/every_day</item>
+        <item>@string/every_week</item>
+        <item>@string/every_month</item>
+        <item>@string/every_year</item>
+        <item>@string/personalized</item>
+    </string-array>
+    <string-array name="priority">
+        <item>@string/one</item>
+        <item>@string/two</item>
+        <item>@string/three</item>
+        <item>@string/four</item>
+    </string-array>
+    <string-array name="category">
+        <item>@string/c0</item>
+        <item>@string/c1</item>
+        <item>@string/c2</item>
+        <item>@string/add_other</item>
+    </string-array>
+    <string-array name="color_name">
+        <item>@string/red</item>
+        <item>@string/orange</item>
+        <item>@string/yellow</item>
+        <item>@string/darkGreen</item>
+        <item>@string/green</item>
+        <item>@string/lightBlue</item>
+        <item>@string/lightPurple</item>
+        <item>@string/purple</item>
+        <item>@string/pink</item>
+        <item>@string/defaultColor</item>
+    </string-array>
+    <array name="color_image">
+        <item>@drawable/red</item>
+        <item>@drawable/orange</item>
+        <item>@drawable/yellow</item>
+        <item>@drawable/dark_green</item>
+        <item>@drawable/green</item>
+        <item>@drawable/light_blue</item>
+        <item>@drawable/light_purple</item>
+        <item>@drawable/purple</item>
+        <item>@drawable/pink</item>
+        <item>@drawable/light_blue</item>
+    </array>
+
+    <string-array name="period_type">
+        <item>days</item>
+        <item>weeks</item>
+        <item>months</item>
+        <item>years</item>
+    </string-array>
+
+    <string-array name="period_type_singular">
+        <item>day</item>
+        <item>week</item>
+        <item>month</item>
+        <item>year</item>
+    </string-array>
+
+    <array name="days_of_week_id">
+        <item>@id/monday_input</item>
+        <item>@id/tuesday_input</item>
+        <item>@id/wendesday_input</item>
+        <item>@id/thursday_input</item>
+        <item>@id/friday_input</item>
+        <item>@id/saturday_input</item>
+        <item>@id/sunday_input</item>
+    </array>
+
+    <string-array name="days_occurrences_in_month">
+        <item>first</item>
+        <item>second</item>
+        <item>third</item>
+        <item>fourth</item>
+        <item>last</item>
+    </string-array>
+
+    <!--DATA ARRAYS-->
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="c0">Work</string>
+    <string name="c1">Homeworks</string>
+    <string name="c2">Family</string>
+    <string name="add_other">Add other&#8230;</string>
+    <string name="red">Red</string>
+    <string name="orange">Orange</string>
+    <string name="yellow">Yellow</string>
+    <string name="darkGreen">Dark green</string>
+    <string name="green">Green</string>
+    <string name="lightBlue">Light blue</string>
+    <string name="darkPurple">Dark purple</string>
+    <string name="lightPurple">Light purple</string>
+    <string name="purple">Purple</string>
+    <string name="pink">Pink</string>
+    <string name="grey">Grey</string>
+    <string name="defaultColor">Default color</string>
+
+
+    <!--CHILD PERSONALIZED FRAGMENT-->
+    <string name="repeated_every">IT IS REPEATED EVERY</string>
+
+    <string name="it_repeats_every_period">it repeats every period</string>
+    <string name="week_days">on d</string>
+    <string name="is_until">; is until d</string>
+    <string name="for_once">; for once</string>
+    <string name="twice">; twice</string>
+    <string name="for_n_times">; for n times</string>
+
+
+    <string name="it_repeats_every_n_periods">it repeats every n periods</string>
+
+
+    <string name="it_repeats_every_day">it repeats every day</string>
+    <string name="it_repeats_every_n_day">it repeats every n day</string>
+    <string name="repeats_every_week">repeats every week</string>
+    <string name="repeats_every_n_weeks">repeats every n weeks</string>
+
+    <string name="repeat_at">TO REPEAT</string>
+    <string name="monday">M</string>
+    <string name="tuesday">T</string>
+    <string name="wendesday">W</string>
+    <string name="thursday">T</string>
+    <string name="friday">F</string>
+    <string name="saturday">S</string>
+    <string name="sunday">S</string>
+    <string name="end">END</string>
+    <string name="never_checkbox">Never</string>
+    <string name="never_radio">Never</string>
+    <string name="the_day_radio">The day</string>
+    <string name="after_input_recurrence_radio">After</string>
+    <string name="occurrence_text">occurrence</string>
+    <string name="number_occurrences">1</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dialog_category_title">ADD CATEGORY</string>
+    <string name="dialog_category_edit_hint">New category</string>
+    <string name="dialog_category_confirm">Add</string>
+    <string name="dialog_category_cancel">Cancel</string>
+    <string name="remove_category">remove:</string>
+    <string name="edit_task_save_btn">Save</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="login_btn">Login</string>
+    <string name="registration_btn">Registration</string>
+    <string name="sing_up">Sing up</string>
+    <string name="email_hint_login">E-mail</string>
+    <string name="password_hint_login">Password</string>
+    <string name="wrong_password_login">* Wrong password</string>
+    <string name="invalid_password">* Incorrect password</string>
+    <string name="wrong_email_login">* E-mail is wrong or the user is not registered</string>
+    <string name="invalid_email">* Incorrect e-mail</string>
+    <string name="user_hint_sing_up">Username</string>
+    <string name="password_confirm_hint_sing_up">Confirm Password</string>
+    <string name="confirm_password_not_match">* Must match with password field</string>
+    <string name="invalid_username">* Incorrect username</string>
+    <string name="invalid_confirm_password">* Incorrect confirm password</string>
+    <string name="username_taken">The Email is taken. Try another.</string>
+    <string name="label">To-do Task Manager</string>
+    <string name="email_verification_title">Confirm Your Email Address</string>
+    <string name="dialog_email_verification_msg_1">A confirmation email has been sent to </string>
+    <string name="dialog_email_verification_msg_2">. Click on the confirmation link in the email to active your account.</string>
+    <string name="dialog_email_verification_click_email">Validate your email</string>
+    <string name="login_successful">Login successful</string>
+    <string name="login_error_email">There is no user record corresponding to this identifier. The user may have been deleted.</string>
+    <string name="login_error_password">The password is invalid or the user does not have a password.</string>
+    <string name="registration_error_user_taken">The email address is already in use by another account.</string>
+    <string name="login_error_user_disabled">The user account has been disabled by an administrator.</string>
+    <string name="user_disabled">* The user account has been disabled by an administrator.</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="save_btn">Save</string>
+    <string name="email_chooser">Select Email</string>
+
+
+</resources>

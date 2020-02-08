@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/title_sing_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="55dp"
+        android:text="@string/sing_up"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDarkDark100"
+        android:textSize="45dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/error_username_sing_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginStart="55dp"
+        android:visibility="invisible"
+        android:textColor="@color/error_red"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/rounded_layout_login_input"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_username_sing_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="28dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/ic_user_img"
+                android:textAlignment="center"/>
+
+            <EditText
+                android:id="@+id/edit_username_sing_up"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_edit_text"
+                android:ems="10"
+                android:hint="@string/user_hint_sing_up"
+                android:inputType="textPersonName"
+                android:maxLength="30"
+                android:padding="4dp"
+                android:textColorHighlight="@color/colorHighlight"
+                android:textColor="@color/colorPrimaryDarkDark100"
+                android:textColorHint="@color/colorPrimaryDarkDark55" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/error_email_sing_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginStart="55dp"
+        android:visibility="invisible"
+        android:textColor="@color/error_red"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/rounded_layout_login_input"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_email_sing_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="28dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/ic_email_login"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/edit_email_sing_up"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_edit_text"
+                android:ems="10"
+                android:hint="@string/email_hint_login"
+                android:inputType="textEmailAddress"
+                android:maxLength="40"
+                android:padding="4dp"
+                android:textColorHighlight="@color/colorHighlight"
+                android:textColor="@color/colorPrimaryDarkDark100"
+                android:textColorHint="@color/colorPrimaryDarkDark55" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/error_password_sing_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginStart="55dp"
+        android:visibility="invisible"
+        android:textColor="@color/error_red"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/rounded_layout_login_input"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_password_sing_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="28dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/ic_pwd_login"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/edit_password_sing_up"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_edit_text"
+                android:ems="10"
+                android:hint="@string/password_hint_login"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:padding="4dp"
+                android:textColorHighlight="@color/colorHighlight"
+                android:textColor="@color/colorPrimaryDarkDark100"
+                android:textColorHint="@color/colorPrimaryDarkDark55" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/error_password_confirm_sing_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginStart="55dp"
+        android:visibility="invisible"
+        android:textColor="@color/error_red"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/rounded_layout_login_input"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_password_confirm_sing_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="28dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="12dp"
+                android:src="@drawable/ic_pwd_login"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/edit_password_confirm_sing_up"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_edit_text"
+                android:ems="10"
+                android:hint="@string/password_confirm_hint_sing_up"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:padding="4dp"
+                android:textColorHighlight="@color/colorHighlight"
+                android:textColor="@color/colorPrimaryDarkDark100"
+                android:textColorHint="@color/colorPrimaryDarkDark55" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/sing_up_btn_sing_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/bg_color_change_sing_up_btn"
+        android:elevation="16dp"
+        android:text="@string/sing_up"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDarkDark80"
+        android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/login_btn_sing_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/bg_color_change_login_btn"
+        android:elevation="18dp"
+        android:text="@string/login_btn"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimaryDarkDark80"
+        android:textSize="18dp" />
+
+
+
+</LinearLayout>

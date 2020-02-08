@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_dont_repeat"
+        android:title="@string/dont_repeat" />
+    <item
+        android:id="@+id/menu_every_day"
+        android:title="@string/every_day"/>
+    <item
+        android:id="@+id/menu_every_week"
+        android:title="@string/every_week"/>
+    <item
+        android:id="@+id/menu_every_month"
+        android:title="@string/every_month" />
+    <item
+        android:id="@+id/menu_every_year"
+        android:title="@string/every_year" />
+    <item
+        android:id="@+id/menu_personalized"
+        android:title="@string/personalized" />
+</menu>

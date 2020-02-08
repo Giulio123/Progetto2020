@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:background="@drawable/round_corner_new_category"
+        android:textColor="@color/white"
+        android:text="@string/dialog_category_title"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/dialog_category_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:inputType="textPersonName"
+        android:ems="15"
+        android:maxLength="15"
+        android:backgroundTint="@color/whiteBackgroundActivity"
+        android:hint="@string/dialog_category_edit_hint"
+        android:textSize="18sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/dialog_category_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/dialog_category_cancel"/>
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/dialog_category_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/dialog_category_confirm"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="username_errors">username_error</string-array>
+    <string-array name="email_errors">email_error</string-array>
+    <string-array name="pwd_errors">pwd_error</string-array>
+</resources>
