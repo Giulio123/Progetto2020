@@ -1,6 +1,5 @@
 package it.guaraldi.to_dotaskmanager.ui.edittask.personalized;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -21,9 +20,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-
-import java.util.PrimitiveIterator;
 
 import javax.inject.Inject;
 
@@ -34,14 +30,13 @@ import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.EditInstanceState;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child.ChildPersonalizedFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child.ChildPersonalizedInstanceState;
-import it.guaraldi.to_dotaskmanager.util.ActivityUtils;
+import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.CHILD_PERSONALIZED_STATE;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.EDIT_STATE;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.EVERY_DAY_POS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.EVERY_YEAR_POS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERSONALIZED_STATE;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.REPLY_TASK;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.CHILD_PERSONALIZED_STATE;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.EDIT_STATE;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.EVERY_DAY_POS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.EVERY_YEAR_POS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PERSONALIZED_STATE;
 
 public class PersonalizedFragment extends BaseFragment implements PersonalizedContract.View, AdapterView.OnItemSelectedListener, View.OnClickListener, TextWatcher {
 

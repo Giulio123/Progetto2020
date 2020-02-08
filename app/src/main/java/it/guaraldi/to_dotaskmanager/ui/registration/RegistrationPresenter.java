@@ -3,28 +3,17 @@ package it.guaraldi.to_dotaskmanager.ui.registration;
 import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AdditionalUserInfo;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
-
-import java.util.Map;
-import java.util.Spliterators;
 
 import javax.inject.Inject;
 
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
-import it.guaraldi.to_dotaskmanager.data.local.LocalDataSource;
-import it.guaraldi.to_dotaskmanager.data.local.TaskDatabase;
-import it.guaraldi.to_dotaskmanager.data.remote.RemoteDataSource;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
-import it.guaraldi.to_dotaskmanager.util.ActivityUtils;
-import it.guaraldi.to_dotaskmanager.util.DateUtils;
+import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.ALL_FIELDS_ARE_VALID;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.USERNAME_TAKEN;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.ALL_FIELDS_ARE_VALID;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.USERNAME_TAKEN;
 
 public class RegistrationPresenter extends BasePresenter<RegistrationContract.View> implements RegistrationContract.Presenter {
     private TasksRepository mRepository;

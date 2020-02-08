@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import it.guaraldi.to_dotaskmanager.R;
-import it.guaraldi.to_dotaskmanager.util.ActivityUtils;
+import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerHolder> {
     private Context mContext;

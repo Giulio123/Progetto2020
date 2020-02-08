@@ -2,20 +2,16 @@ package it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child;
 
 import android.util.Log;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.inject.Inject;
 
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
-import it.guaraldi.to_dotaskmanager.data.local.LocalDataSource;
-import it.guaraldi.to_dotaskmanager.data.remote.RemoteDataSource;
 
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
-import it.guaraldi.to_dotaskmanager.util.DateUtils;
+import it.guaraldi.to_dotaskmanager.utils.DateUtils;
 
 public class ChildPersonalizedPresenter extends BasePresenter<ChildPersonalizedContract.View> implements ChildPersonalizedContract.Presenter {
 

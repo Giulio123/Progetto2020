@@ -7,27 +7,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
 
-import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
-import it.guaraldi.to_dotaskmanager.data.local.LocalDataSource;
-import it.guaraldi.to_dotaskmanager.data.local.TaskDatabase;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
-import it.guaraldi.to_dotaskmanager.data.remote.RemoteDataSource;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedInstanceState;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child.ChildPersonalizedInstanceState;
-import it.guaraldi.to_dotaskmanager.util.DateUtils;
+import it.guaraldi.to_dotaskmanager.utils.DateUtils;
 
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.LOAD_CATEGORY;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.REMOVE_CATEGORY;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.LOAD_CATEGORY;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.REMOVE_CATEGORY;
 
 public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> implements EditTaskContract.Presenter {
     private final TasksRepository mRepository;

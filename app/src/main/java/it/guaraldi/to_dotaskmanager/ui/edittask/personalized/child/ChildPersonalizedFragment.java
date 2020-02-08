@@ -38,11 +38,10 @@ import it.guaraldi.to_dotaskmanager.adapter.MonthAdapter;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedInstanceState;
-import it.guaraldi.to_dotaskmanager.util.ActivityUtils;
+import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.CHILD_PERSONALIZED_STATE;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERSONALIZED_STATE;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.REPLY_TASK;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.CHILD_PERSONALIZED_STATE;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PERSONALIZED_STATE;
 
 
 public class ChildPersonalizedFragment extends BaseFragment implements ChildPersonalizedContract.View, PersonalizedFragment.PersonalizedCallback,View.OnClickListener, AdapterView.OnItemSelectedListener,

@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import it.guaraldi.to_dotaskmanager.R;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PARAMS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.USER_EMAIL;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PARAMS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.USER_EMAIL;
 
 public class DialogEmailVerification extends DialogFragment {
 

@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.local.dao.TaskDao;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
-import it.guaraldi.to_dotaskmanager.util.AppExecutors;
+import it.guaraldi.to_dotaskmanager.utils.AppExecutors;
 
 public class LocalDataSource implements TasksDataSource {
 

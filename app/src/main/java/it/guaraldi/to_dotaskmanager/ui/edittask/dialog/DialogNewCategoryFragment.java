@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import it.guaraldi.to_dotaskmanager.R;
-import it.guaraldi.to_dotaskmanager.util.ActivityUtils;
+import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 
 public class DialogNewCategoryFragment extends DialogFragment{
 

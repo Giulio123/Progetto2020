@@ -1,41 +1,28 @@
 package it.guaraldi.to_dotaskmanager.ui.edittask;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.view.MarginLayoutParamsCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 
 import android.os.Parcelable;
-import android.print.PrintAttributes;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +32,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -57,45 +43,39 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.UUID;
 
 import javax.inject.Inject;
 import it.guaraldi.to_dotaskmanager.NewsApp;
 import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.adapter.SpinnerAdapter;
-import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.notification.Const;
 import it.guaraldi.to_dotaskmanager.notification.NotificationReceiver;
-import it.guaraldi.to_dotaskmanager.ui.base.BaseActivity;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.dialog.DialogNewCategoryFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.dialog.DialogPeriodsFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.dialog.DialogShowCategoryFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedInstanceState;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child.ChildPersonalizedInstanceState;
-import it.guaraldi.to_dotaskmanager.util.ActivityUtils;
-import it.guaraldi.to_dotaskmanager.util.DateUtils;
+import it.guaraldi.to_dotaskmanager.utils.DateUtils;
 
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.CATEGORY;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.CATEGORY_PARAMS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.CHILD_PERSONALIZED_STATE;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.DIALOG_ADD_CATEGORY_REQ;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.DIALOG_CATEGORY_REQ;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.DIALOG_PERIOD_REQ;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.EDIT_STATE;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.LIST_CATEGORIES;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.CATEGORY;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.CATEGORY_PARAMS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.CHILD_PERSONALIZED_STATE;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.DIALOG_ADD_CATEGORY_REQ;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.DIALOG_CATEGORY_REQ;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.DIALOG_PERIOD_REQ;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.EDIT_STATE;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.LIST_CATEGORIES;
 
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.LOAD_CATEGORY;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.LONG_CLICK;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERIOD;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERIOD_PARAMS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERSONALIZED_PERIOD;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERSONALIZED_POS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERSONALIZED_STATE;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.POS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.REMOVE_CATEGORY;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.REPLY_TASK;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.SELECTED_CATEGORY;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.LOAD_CATEGORY;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.LONG_CLICK;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PERIOD;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PERIOD_PARAMS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PERSONALIZED_PERIOD;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PERSONALIZED_STATE;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.POS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.REMOVE_CATEGORY;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.SELECTED_CATEGORY;
 
 
 public class EditTaskFragment extends BaseFragment implements EditTaskContract.View, View.OnClickListener,

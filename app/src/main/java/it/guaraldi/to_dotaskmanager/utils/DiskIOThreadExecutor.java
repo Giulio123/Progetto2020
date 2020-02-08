@@ -1,4 +1,4 @@
-package it.guaraldi.to_dotaskmanager.util;
+package it.guaraldi.to_dotaskmanager.utils;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;

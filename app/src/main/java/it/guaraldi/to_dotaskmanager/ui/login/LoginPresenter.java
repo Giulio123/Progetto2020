@@ -4,7 +4,6 @@ import android.util.Log;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.GetTokenResult;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Map;
@@ -13,8 +12,7 @@ import javax.inject.Inject;
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
-import it.guaraldi.to_dotaskmanager.util.ActivityUtils;
-import it.guaraldi.to_dotaskmanager.util.DateUtils;
+import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 
 import static it.guaraldi.to_dotaskmanager.ui.login.LoginFragment.CPWD;
 import static it.guaraldi.to_dotaskmanager.ui.login.LoginFragment.EMAIL;
@@ -25,8 +23,6 @@ import static it.guaraldi.to_dotaskmanager.ui.login.LoginFragment.PWD;
 import static it.guaraldi.to_dotaskmanager.ui.login.LoginFragment.PWD_L;
 import static it.guaraldi.to_dotaskmanager.ui.login.LoginFragment.SERVER_ERR;
 import static it.guaraldi.to_dotaskmanager.ui.login.LoginFragment.USERNAME;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.USER_DISABLED;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.WRONG_EMAIL_OR_PASSWORD;
 
 public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
     private TasksRepository mRepository;

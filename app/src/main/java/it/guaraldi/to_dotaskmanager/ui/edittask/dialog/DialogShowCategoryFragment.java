@@ -9,12 +9,9 @@ import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,14 +22,13 @@ import java.util.List;
 
 import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.adapter.RecyclerAdapter;
-import it.guaraldi.to_dotaskmanager.util.ActivityUtils;
 
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.CATEGORY_PARAMS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.LIST_CATEGORIES;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.LONG_CLICK;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PARAMS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.POS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.SELECTED_CATEGORY;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.CATEGORY_PARAMS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.LIST_CATEGORIES;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.LONG_CLICK;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PARAMS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.POS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.SELECTED_CATEGORY;
 
 public class DialogShowCategoryFragment extends DialogFragment {
 

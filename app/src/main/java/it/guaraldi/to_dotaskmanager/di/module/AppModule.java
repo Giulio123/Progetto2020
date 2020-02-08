@@ -1,12 +1,9 @@
 package it.guaraldi.to_dotaskmanager.di.module;
 
-import android.accounts.AccountManager;
 import android.app.Application;
-import android.app.KeyguardManager;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 
 import androidx.room.Room;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,7 +15,7 @@ import it.guaraldi.to_dotaskmanager.data.local.LocalDataSource;
 import it.guaraldi.to_dotaskmanager.data.local.dao.TaskDao;
 import it.guaraldi.to_dotaskmanager.data.remote.RemoteDataSource;
 
-import it.guaraldi.to_dotaskmanager.util.AppExecutors;
+import it.guaraldi.to_dotaskmanager.utils.AppExecutors;
 
 
 import it.guaraldi.to_dotaskmanager.utils.Constants;
@@ -31,9 +28,6 @@ import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class AppModule {

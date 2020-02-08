@@ -1,4 +1,4 @@
-package it.guaraldi.to_dotaskmanager.util;
+package it.guaraldi.to_dotaskmanager.utils;
 
 import android.os.Handler;
 import android.os.Looper;

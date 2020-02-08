@@ -21,14 +21,12 @@ import java.util.List;
 
 import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.adapter.RecyclerAdapter;
-import it.guaraldi.to_dotaskmanager.util.ActivityUtils;
 
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PARAMS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERIOD;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERIOD_PARAMS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERSONALIZED_PERIOD;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.PERSONALIZED_POS;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.POS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PARAMS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PERIOD;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PERIOD_PARAMS;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.PERSONALIZED_PERIOD;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.POS;
 
 public class DialogPeriodsFragment extends DialogFragment{
     private String mPersonalizedInstance;

@@ -1,47 +1,22 @@
 package it.guaraldi.to_dotaskmanager.data.remote;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AccountManagerFuture;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
-import android.app.Activity;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Looper;
-import android.os.Parcel;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.google.android.gms.internal.firebase_auth.zzey;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.FirebaseUserMetadata;
 import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.auth.OAuthCredential;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.auth.zzy;
-import com.google.firebase.auth.zzz;
-
-import java.io.IOException;
-import java.util.List;
 
 import javax.inject.Inject;
 
 
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.User;
-import it.guaraldi.to_dotaskmanager.util.AppExecutors;
+import it.guaraldi.to_dotaskmanager.utils.AppExecutors;
 
 
 public class RemoteDataSource implements TasksDataSource {

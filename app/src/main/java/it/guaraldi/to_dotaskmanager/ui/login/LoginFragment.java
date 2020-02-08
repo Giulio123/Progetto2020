@@ -1,8 +1,5 @@
 package it.guaraldi.to_dotaskmanager.ui.login;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -16,21 +13,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
+
 import javax.inject.Inject;
 import it.guaraldi.to_dotaskmanager.NewsApp;
 import it.guaraldi.to_dotaskmanager.R;
-import it.guaraldi.to_dotaskmanager.ui.base.BaseActivity;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
 import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
 
-import static android.app.Activity.RESULT_OK;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.ALL_FIELDS_ARE_VALID;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.INVALID_EMAIL;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.INVALID_EMAIL_PASSWORD;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.INVALID_PASSWORD;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.USER_DISABLED;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.WRONG_EMAIL_OR_PASSWORD;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.ALL_FIELDS_ARE_VALID;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.INVALID_EMAIL;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.INVALID_EMAIL_PASSWORD;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.INVALID_PASSWORD;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.USER_DISABLED;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.WRONG_EMAIL_OR_PASSWORD;
 
 public class LoginFragment extends BaseFragment implements LoginContract.View, View.OnClickListener {
     public static final int USERNAME = 0;

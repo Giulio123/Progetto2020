@@ -1,18 +1,12 @@
 package it.guaraldi.to_dotaskmanager.ui.registration;
 
-import android.accounts.AccountManager;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.Navigation;
 
-import android.security.keystore.KeyInfo;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,27 +17,22 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.security.KeyPair;
-
 
 import javax.inject.Inject;
 import it.guaraldi.to_dotaskmanager.NewsApp;
 import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
-import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
 
 
-import static android.app.Activity.RESULT_OK;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.ALL_FIELDS_ARE_INVALID;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.ALL_FIELDS_ARE_VALID;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.DIALOG_EMAIL_VERIFICATION_REQ;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.INVALID_EMAIL;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.INVALID_EMAIL_PASSWORD;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.INVALID_PASSWORD;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.INVALID_USERNAME;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.INVALID_USERNAME_EMAIL;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.INVALID_USERNAME_PASSWORD;
-import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.USERNAME_TAKEN;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.ALL_FIELDS_ARE_INVALID;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.ALL_FIELDS_ARE_VALID;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.INVALID_EMAIL;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.INVALID_EMAIL_PASSWORD;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.INVALID_PASSWORD;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.INVALID_USERNAME;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.INVALID_USERNAME_EMAIL;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.INVALID_USERNAME_PASSWORD;
+import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.USERNAME_TAKEN;
 
 public class RegistrationFragment extends BaseFragment implements RegistrationContract.View, View.OnClickListener, TextWatcher {
     @Inject RegistrationPresenter mPresenter;
