@@ -38,7 +38,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import it.guaraldi.to_dotaskmanager.auth.SessionManagerI;
+
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.User;
 import it.guaraldi.to_dotaskmanager.util.AppExecutors;
@@ -48,11 +48,10 @@ public class RemoteDataSource implements TasksDataSource {
 
     private static final String TAG = RemoteDataSource.class.getSimpleName();
 
-    private RemoteService mRemoteService;
+
     private AppExecutors mAppExecutors;
     private FirebaseAuth mAuth;
-    @Inject public RemoteDataSource(RemoteService remoteService, AppExecutors appExecutors, FirebaseAuth auth) {
-        this.mRemoteService = remoteService;
+    @Inject public RemoteDataSource( AppExecutors appExecutors, FirebaseAuth auth) {
         this.mAppExecutors = appExecutors;
         this.mAuth = auth;
     }
@@ -138,25 +137,6 @@ public class RemoteDataSource implements TasksDataSource {
         });
     }
 
-    @Override
-    public void createSession(String username, String token, SessionManagerI.SessionCallback callback) {
-
-    }
-
-    @Override
-    public void getCurrentSession(SessionManagerI.SessionCallback callback) {
-
-    }
-
-    @Override
-    public void updateSession(String username, String token, SessionManagerI.SessionCallback callback) {
-
-    }
-
-    @Override
-    public void deleteSession(SessionManagerI.SessionCallback callback) {
-
-    }
 
     @Override
     public void getCurrentUser(LoadSessionCallback callback) {

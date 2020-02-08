@@ -1,7 +1,7 @@
 package it.guaraldi.to_dotaskmanager.data;
 import com.google.android.gms.tasks.Task;
 import java.util.List;
-import it.guaraldi.to_dotaskmanager.auth.SessionManagerI;
+
 
 
 /**
@@ -17,12 +17,7 @@ public interface TasksDataSource {
     void registration(String username, String email, String password, FirebaseCallback callback);
     void reloadUser(FirebaseCallback callback);
     void deleteCurrentUser(FirebaseCallback callBack);
-
-    void createSession(String username, String token, SessionManagerI.SessionCallback callback);
-    void getCurrentSession(SessionManagerI.SessionCallback callback);
-    void updateSession(String username, String token, SessionManagerI.SessionCallback callback);
-    void deleteSession(SessionManagerI.SessionCallback callback);
-
+    
     void getCurrentUser(LoadSessionCallback callback);
     void signOut(SignOutCallback callback);
 

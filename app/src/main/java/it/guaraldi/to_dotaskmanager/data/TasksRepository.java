@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
 
-import it.guaraldi.to_dotaskmanager.auth.SessionManagerI;
+
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.util.UtilAccounts;
 
@@ -151,17 +151,6 @@ public class TasksRepository implements TasksDataSource {
             @Override
             public void success(com.google.android.gms.tasks.Task<?> task) {
                 callback.success(task);
-                mLocalDataSource.deleteSession(new SessionManagerI.SessionCallback() {
-                    @Override
-                    public void success(String result) {
-
-                    }
-
-                    @Override
-                    public void failure(String errMsg) {
-
-                    }
-                });
             }
 
             @Override
@@ -171,65 +160,7 @@ public class TasksRepository implements TasksDataSource {
         });
     }
 
-    @Override
-    public void createSession(String username, String token, SessionManagerI.SessionCallback callback) {
-        mLocalDataSource.createSession(username, token, new SessionManagerI.SessionCallback() {
-            @Override
-            public void success(String result) {
-                callback.success(result);
-            }
 
-            @Override
-            public void failure(String errMsg) {
-                callback.failure(errMsg);
-            }
-        });
-    }
-
-    @Override
-    public void getCurrentSession(SessionManagerI.SessionCallback callback) {
-        mLocalDataSource.getCurrentSession(new SessionManagerI.SessionCallback() {
-            @Override
-            public void success(String result) {
-                callback.success(result);
-            }
-
-            @Override
-            public void failure(String errMsg) {
-                callback.failure(errMsg);
-            }
-        });
-    }
-
-    @Override
-    public void updateSession(String username, String token, SessionManagerI.SessionCallback callback) {
-        mLocalDataSource.updateSession(username, token, new SessionManagerI.SessionCallback() {
-            @Override
-            public void success(String result) {
-                callback.success(result);
-            }
-
-            @Override
-            public void failure(String errMsg) {
-                callback.failure(errMsg);
-            }
-        });
-    }
-
-    @Override
-    public void deleteSession(SessionManagerI.SessionCallback callback) {
-        mLocalDataSource.deleteSession(new SessionManagerI.SessionCallback() {
-            @Override
-            public void success(String result) {
-                callback.success(result);
-            }
-
-            @Override
-            public void failure(String errMsg) {
-                callback.failure(errMsg);
-            }
-        });
-    }
 
     @Override
     public void getCurrentUser(LoadSessionCallback callback) {

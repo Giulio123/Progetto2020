@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import it.guaraldi.to_dotaskmanager.auth.SessionManager;
-import it.guaraldi.to_dotaskmanager.auth.SessionManagerI;
+
+
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.local.dao.TaskDao;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
@@ -16,13 +16,11 @@ public class LocalDataSource implements TasksDataSource {
 
     private TaskDao mTaskDao;
     private AppExecutors mAppExecutors;
-    private SessionManager mSessionManager;
-    @Inject
+      @Inject
     public LocalDataSource(AppExecutors appExecutors,
-                                 TaskDao taskDao, SessionManager sessionManager){
+                                 TaskDao taskDao){
         mAppExecutors = appExecutors;
         mTaskDao = taskDao;
-        mSessionManager = sessionManager;
     }
 
     @Override
@@ -60,65 +58,6 @@ public class LocalDataSource implements TasksDataSource {
 
     }
 
-    @Override
-    public void createSession(String username, String token, SessionManagerI.SessionCallback callback) {
-        mSessionManager.createUserSession(username, token, mAppExecutors.diskIO(), mAppExecutors.mainThread(), new SessionManagerI.SessionCallback() {
-            @Override
-            public void success(String result) {
-                callback.success(result);
-            }
-
-            @Override
-            public void failure(String errMsg) {
-                callback.failure(errMsg);
-            }
-        });
-    }
-
-    @Override
-    public void getCurrentSession(SessionManagerI.SessionCallback callback) {
-        mSessionManager.getUserSession(mAppExecutors.diskIO(), mAppExecutors.mainThread(), new SessionManagerI.SessionCallback() {
-            @Override
-            public void success(String result) {
-                callback.success(result);
-            }
-
-            @Override
-            public void failure(String errMsg) {
-                callback.failure(errMsg);
-            }
-        });
-    }
-
-    @Override
-    public void updateSession(String username, String token, SessionManagerI.SessionCallback callback) {
-        mSessionManager.updateUserSession(mAppExecutors.diskIO(), mAppExecutors.mainThread(), username, token, new SessionManagerI.SessionCallback() {
-            @Override
-            public void success(String result) {
-                callback.success(result);
-            }
-
-            @Override
-            public void failure(String errMsg) {
-                callback.failure(errMsg);
-            }
-        });
-    }
-
-    @Override
-    public void deleteSession(SessionManagerI.SessionCallback callback) {
-        mSessionManager.deleteUserSession(mAppExecutors.diskIO(), mAppExecutors.mainThread(), new SessionManagerI.SessionCallback() {
-            @Override
-            public void success(String result) {
-                callback.success(result);
-            }
-
-            @Override
-            public void failure(String errMsg) {
-                callback.failure(errMsg);
-            }
-        });
-    }
 
     @Override
     public void getCurrentUser(LoadSessionCallback callback) {

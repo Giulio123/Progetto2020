@@ -11,13 +11,13 @@ import android.os.Build;
 import androidx.room.Room;
 import com.google.firebase.auth.FirebaseAuth;
 
-import it.guaraldi.to_dotaskmanager.auth.SessionManager;
+
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.data.local.TaskDatabase;
 import it.guaraldi.to_dotaskmanager.data.local.LocalDataSource;
 import it.guaraldi.to_dotaskmanager.data.local.dao.TaskDao;
 import it.guaraldi.to_dotaskmanager.data.remote.RemoteDataSource;
-import it.guaraldi.to_dotaskmanager.data.remote.RemoteService;
+
 import it.guaraldi.to_dotaskmanager.util.AppExecutors;
 import it.guaraldi.to_dotaskmanager.util.SystemServices;
 import it.guaraldi.to_dotaskmanager.util.UtilAccounts;
@@ -49,11 +49,6 @@ public class AppModule {
         return FirebaseAuth.getInstance();
     }
 
-    @Singleton
-    @Provides
-    public SessionManager providesSessionManager(){
-        return new SessionManager(application);
-    }
 
     @Singleton
     @Provides
@@ -81,8 +76,8 @@ public class AppModule {
 
     @Singleton
     @Provides
-    public LocalDataSource providesLocalDataSource(AppExecutors executors,TaskDao dao,SessionManager sessionManager){
-        return new LocalDataSource(executors,dao, sessionManager);
+    public LocalDataSource providesLocalDataSource(AppExecutors executors,TaskDao dao){
+        return new LocalDataSource(executors,dao);
     }
 
     @Singleton
@@ -102,17 +97,7 @@ public class AppModule {
         return application;
     }
 
-    @Provides
-    @Singleton
-    public RemoteService providesRemoteService() {
-        return new Retrofit.Builder()
-                .baseUrl("https://to-do-taskmanager.web.app")
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(getOkHttpClient())
-                .build()
-                .create(RemoteService.class);
-    }
+
 
     private OkHttpClient getOkHttpClient(){
         return new OkHttpClient.Builder()
@@ -142,7 +127,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public RemoteDataSource providesRemoteDataSource(RemoteService remoteService, AppExecutors appExecutors, FirebaseAuth auth) {
-        return new RemoteDataSource(remoteService, appExecutors, auth);
+    public RemoteDataSource providesRemoteDataSource( AppExecutors appExecutors, FirebaseAuth auth) {
+        return new RemoteDataSource(appExecutors, auth);
     }
 }

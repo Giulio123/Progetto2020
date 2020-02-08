@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Map;
 import javax.inject.Inject;
 
-import it.guaraldi.to_dotaskmanager.auth.SessionManagerI;
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
@@ -45,33 +44,11 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
             mRepository.authentication(email, password, new TasksDataSource.FirebaseCallback() {
             @Override
             public void success(Task<?> task) {
-                readTokenTask(task);
                 String authToken = ((GetTokenResult)task.getResult()).getToken();
-                mRepository.createSession(email, authToken, new SessionManagerI.SessionCallback() {
-                    @Override
-                    public void success(String result) {
-                        mView.errorData(credentialStatus,null);
-                        mView.showCalendarView(authToken);
-                    }
-
-                    @Override
-                    public void failure(String errMsg) {
-                        Log.d(TAG, "failure() returned: " + errMsg);
-                    }
-                });
-
             }
 
             @Override
             public void failure(Exception e) {
-//                for(int i = 0; i < errors.length; i++ ){
-//                    if(errors[i].equals(e.getMessage())) {
-//                        if (i < 2)
-//                            mView.errorData(WRONG_EMAIL_OR_PASSWORD);
-//                        else
-//                            mView.errorData(USER_DISABLED);
-//                    }
-//                }
                 mView.errorData(new int[]{SERVER_ERR,SERVER_ERR}, new String[]{e.getMessage(),e.getMessage()});
                 Log.d(TAG, "failure: "+e.getMessage()+"code:"+e.getLocalizedMessage());
             }
