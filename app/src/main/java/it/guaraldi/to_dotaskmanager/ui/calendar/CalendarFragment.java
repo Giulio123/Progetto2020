@@ -17,9 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.Navigation;
 
 import com.alamkanak.weekview.MonthLoader;
@@ -64,7 +62,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         NewsApp.getNewsComponent().inject(this);
         mPresenter.attachView(this);
-        return inflater.inflate(R.layout.calendar_fragment_new, container, false);
+        return inflater.inflate(R.layout.calendar_fragment, container, false);
     }
 
     @Override
@@ -176,8 +174,6 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
 
         }
 
-        DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
