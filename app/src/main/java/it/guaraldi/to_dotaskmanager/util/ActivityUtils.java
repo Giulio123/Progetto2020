@@ -61,12 +61,4 @@ public class ActivityUtils {
     public static final int USER_DISABLED = 11;
     public static final int WRONG_EMAIL_OR_PASSWORD = 10;
 
-
-
-    public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,
-                                              @NonNull Fragment fragment, int frameId) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(frameId, fragment);
-        transaction.commit();
-    }
 }

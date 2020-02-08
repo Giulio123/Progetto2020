@@ -62,7 +62,7 @@ import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.notification.Const;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
 import it.guaraldi.to_dotaskmanager.util.DateUtils;
-import it.guaraldi.to_dotaskmanager.util.SystemServices;
+
 
 public class CalendarFragment extends BaseFragment implements CalendarContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -101,7 +101,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     @Override
     public void onStart() {
         super.onStart();
-        SystemServices.hasMarshmallow();
+
 
 
     }

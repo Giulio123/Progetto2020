@@ -10,7 +10,7 @@ import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.di.module.AppModule;
 import javax.inject.Singleton;
 import dagger.Component;
-import it.guaraldi.to_dotaskmanager.util.SystemServices;
+
 
 @Component(modules = AppModule.class)
 @Singleton

@@ -31,10 +31,7 @@ import it.guaraldi.to_dotaskmanager.NewsApp;
 import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
 import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
-import it.guaraldi.to_dotaskmanager.util.CipherWrapper;
-import it.guaraldi.to_dotaskmanager.util.EncryptionServices;
-import it.guaraldi.to_dotaskmanager.util.KeyStoreWrapper;
-import it.guaraldi.to_dotaskmanager.util.SystemServices;
+
 
 import static android.app.Activity.RESULT_OK;
 import static it.guaraldi.to_dotaskmanager.util.ActivityUtils.ALL_FIELDS_ARE_INVALID;
@@ -75,7 +72,7 @@ public class RegistrationFragment extends BaseFragment implements RegistrationCo
         super.onViewCreated(view, savedInstanceState);
         mPresenter.attachView(this);
         initViews();
-        cryptString("Hello Word");
+
     }
 
 
@@ -268,55 +265,5 @@ public class RegistrationFragment extends BaseFragment implements RegistrationCo
 
 
 
-    private void cryptString(String data){
 
-        // Creates Android Key Store and provides manage functions
-        KeyStoreWrapper keyStoreWrapper = new KeyStoreWrapper(getContext(), EncryptionServices.DEFAULT_KEY_STORE_NAME);
-
-        // Create and Save asymmetric key
-        keyStoreWrapper.createAndroidKeyStoreAsymmetricKey("MASTER_KEY");
-
-        // Get key from keyStore
-        KeyPair masterKey = keyStoreWrapper.getAndroidKeyStoreAsymmetricKeyPair("MASTER_KEY");
-
-        // Creates Cipher with given transformation and provides encrypt and decrypt functions
-        CipherWrapper cipherWrapper = new CipherWrapper(CipherWrapper.TRANSFORMATION_ASYMMETRIC);
-
-        Log.d(TAG, "cryptString: data:"+data);
-
-        // Encrypt message with the key, using public key
-        String encryptedData = cipherWrapper.encrypt(data, masterKey.getPublic());
-        Log.d(TAG, "cryptString: encryptedData:\n"+encryptedData);
-
-        String decryptedData = cipherWrapper.decrypt(encryptedData, masterKey.getPrivate());
-        Log.d(TAG, "cryptString: decryptedData:" + decryptedData);
-    }
-
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        switch (requestCode) {
-//            case DIALOG_EMAIL_VERIFICATION_REQ:
-//                if (resultCode == Activity.RESULT_OK)
-//                    Log.d(TAG, "onActivityResult: EMAIL VERIFICATION SUCCESS");
-//                else
-//                    Log.d(TAG, "onActivityResult: EMAIL CERTIFICATION FAILURE");
-//                break;
-//            case AccountGeneral.REQ_REGISTRATION:
-//                if (resultCode == Activity.RESULT_OK)
-//                    Log.d(TAG, "onActivityResult: REQ_REGISTRATIONNNNNN");
-//                else
-//                    Log.d(TAG, "onActivityResult: REQ_REGISTRATION FAILURE");
-//                break;
-//            case AccountGeneral.REQ_LOGIN:
-//                if (resultCode == Activity.RESULT_OK)
-//                    Log.d(TAG, "onActivityResult: LOGIN SUCCESS");
-//                else
-//                    Log.d(TAG, "onActivityResult: LOGIN FAILURE");
-//                break;
-//            default:
-//                super.onActivityResult(requestCode, resultCode, data);
-//        }
-//
-//    }
 }

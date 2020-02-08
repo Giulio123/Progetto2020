@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.concurrent.Executor;
 
 import it.guaraldi.to_dotaskmanager.ui.base.IBaseView;
-import it.guaraldi.to_dotaskmanager.util.UtilAccounts;
+
 
 public interface CalendarContract {
     interface View extends IBaseView {

@@ -19,8 +19,8 @@ import it.guaraldi.to_dotaskmanager.data.local.dao.TaskDao;
 import it.guaraldi.to_dotaskmanager.data.remote.RemoteDataSource;
 
 import it.guaraldi.to_dotaskmanager.util.AppExecutors;
-import it.guaraldi.to_dotaskmanager.util.SystemServices;
-import it.guaraldi.to_dotaskmanager.util.UtilAccounts;
+
+
 import it.guaraldi.to_dotaskmanager.utils.Constants;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
