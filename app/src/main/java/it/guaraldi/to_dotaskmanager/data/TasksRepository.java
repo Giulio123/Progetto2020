@@ -99,21 +99,22 @@ public class TasksRepository implements TasksDataSource {
     }
 
     @Override
-    public void authentication(String email, String pwd, FirebaseCallback callback) {
+    public void authentication(String email, String pwd, LoadSessionCallback callback) {
         Log.d(TAG, "authentication: ");
-        mRemoteDataSource.authentication(email, pwd, new FirebaseCallback() {
+        mRemoteDataSource.authentication(email, pwd, new LoadSessionCallback() {
             @Override
-            public void success(com.google.android.gms.tasks.Task<?> task) {
-                callback.success(task);
-                Log.d(TAG, "success: token:"+((GetTokenResult)task.getResult()).getToken());
+            public void success(User user) {
+                callback.success(user);
             }
 
             @Override
             public void failure(Exception e) {
-                callback.failure(e);
+                     callback.failure(e);
             }
         });
     }
+
+
 
     @Override
     public void registration(String username, String email, String password, FirebaseCallback callback) {
@@ -171,8 +172,8 @@ public class TasksRepository implements TasksDataSource {
             }
 
             @Override
-            public void failure() {
-                callback.failure();
+            public void failure(Exception e) {
+                callback.failure(e);
             }
         });
 

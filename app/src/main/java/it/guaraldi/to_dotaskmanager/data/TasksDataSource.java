@@ -13,7 +13,7 @@ public interface TasksDataSource {
     void loadCategories(LoadCategories loadCategories);
     void deleteCategory(String category,LoadCategory loadCategory);
 
-    void authentication(String email, String pwd, FirebaseCallback callback);
+    void authentication(String email, String pwd, LoadSessionCallback callback);
     void registration(String username, String email, String password, FirebaseCallback callback);
     void reloadUser(FirebaseCallback callback);
     void deleteCurrentUser(FirebaseCallback callBack);
@@ -55,7 +55,7 @@ public interface TasksDataSource {
 
     interface LoadSessionCallback{
         void success(User user);
-        void failure();
+        void failure(Exception e);
     }
 
     interface LoadStringCallback{

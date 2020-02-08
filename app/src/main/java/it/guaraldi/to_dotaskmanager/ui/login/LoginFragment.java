@@ -17,8 +17,10 @@ import com.google.android.material.snackbar.Snackbar;
 import javax.inject.Inject;
 import it.guaraldi.to_dotaskmanager.NewsApp;
 import it.guaraldi.to_dotaskmanager.R;
+import it.guaraldi.to_dotaskmanager.notification.Const;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
 import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
+import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 
 import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.ALL_FIELDS_ARE_VALID;
 import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.INVALID_EMAIL;
@@ -81,11 +83,12 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
     }
 
     @Override
-    public void showCalendarView(String token) {
+    public void showCalendarView() {
         showCredentialsError(ALL_FIELDS_ARE_VALID);
         Snackbar.make(getView(),getString(R.string.login_successful),Snackbar.LENGTH_SHORT).show();
         getActivity().finish();
-        startActivity(new Intent(getContext(),CalendarActivity.class));
+        Intent intent = new Intent(getContext(),CalendarActivity.class);
+        startActivity(intent);
     }
 
     @Override

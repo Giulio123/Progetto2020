@@ -35,21 +35,21 @@ public class CalendarPresenter extends BasePresenter<CalendarContract.View> impl
     @Override
     public void checkSession() {
         //FAKE
-        mView.updateSession("Carmelo","carmelo@gmail.com",1);
+//        mView.updateSession("Carmelo","carmelo@gmail.com",1);
 
-//        mRepository.getCurrentUser(new TasksDataSource.LoadSessionCallback() {
-//            @Override
-//            public void success(User user) {
-//                mView.updateSession(user.getDisplayName(),user.getEmail(),1);
-//                //TODO dati user+ caricare dati del calndario
-//            }
-//
-//            @Override
-//            public void failure() {
-//                mView.updateSession(null,null,0);
-//                //TODO schermata login per loggare un utente
-//            }
-//        });
+        mRepository.getCurrentUser(new TasksDataSource.LoadSessionCallback() {
+            @Override
+            public void success(User user) {
+                mView.updateSession(user.getDisplayName(),user.getEmail(),1);
+                //TODO dati user+ caricare dati del calndario
+            }
+
+            @Override
+            public void failure(Exception e) {
+                mView.updateSession(null,null,0);
+                //TODO schermata login per loggare un utente
+            }
+        });
     }
 
     @Override
@@ -72,6 +72,7 @@ public class CalendarPresenter extends BasePresenter<CalendarContract.View> impl
 
     @Override
     public void openTaskDetails(Bundle taskData) {
+
         mView.showTaskDetails(taskData);
     }
 

@@ -218,6 +218,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     @Override
     public void updateSession(String displayName,String email, int result) {
         if(result > 0){
+            Log.d(TAG, "updateSession: USERNAME:"+displayName+" email:"+email);
             Bundle data = new Bundle();
             data.putString("USERNAME",displayName);
             data.putString("EMAIL",email);

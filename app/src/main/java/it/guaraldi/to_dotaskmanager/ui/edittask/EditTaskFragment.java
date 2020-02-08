@@ -268,8 +268,8 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
 
 
     @Override
-    public void updateEmail() {
-
+    public void updateEmail(String email) {
+       this.email.setText(email);
     }
 
     @Override
@@ -539,6 +539,7 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
 
     @Override
     protected void setUp(Bundle data) {
+        mPresenter.getCurrentUser();
         if(data!=null) {
             Log.d(TAG, "setUp: data:"+data);
             if(data.containsKey(EDIT_STATE)){

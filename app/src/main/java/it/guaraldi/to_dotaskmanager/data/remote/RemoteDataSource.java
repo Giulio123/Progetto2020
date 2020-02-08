@@ -32,7 +32,7 @@ public class RemoteDataSource implements TasksDataSource {
     }
 
     @Override
-    public void authentication(String email, String pwd, FirebaseCallback auth) {
+    public void authentication(String email, String pwd, LoadSessionCallback callback) {
         Log.d(TAG, "authentication: ");
         mAuth.signInWithEmailAndPassword(email,pwd).addOnCompleteListener(mAppExecutors.networkIO(), task -> mAppExecutors.mainThread().execute(() -> {
             Log.d(TAG, "authentication: THREAD 1");
@@ -42,15 +42,16 @@ public class RemoteDataSource implements TasksDataSource {
                     if(task1.isSuccessful()) {
                         mAppExecutors.mainThread().execute(() -> {
                             Log.d(TAG, "authentication: ");
-                            auth.success(task1);
+
+                            callback.success(new User(mAuth.getCurrentUser()));
                         });
 
                     }
                     else
-                        mAppExecutors.mainThread().execute(() -> auth.failure(task1.getException()));
+                        mAppExecutors.mainThread().execute(() -> callback.failure(task1.getException()));
                 });
             else
-                mAppExecutors.mainThread().execute(() -> auth.failure(task.getException()));
+                mAppExecutors.mainThread().execute(() -> callback.failure(task.getException()));
         }));
     }
 
@@ -118,7 +119,7 @@ public class RemoteDataSource implements TasksDataSource {
         if(mAuth.getCurrentUser()!=null)
             callback.success(new User(mAuth.getCurrentUser()));
         else
-            callback.failure();
+            callback.failure(null);
     }
 
     @Override

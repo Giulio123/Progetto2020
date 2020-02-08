@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
+import it.guaraldi.to_dotaskmanager.data.User;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
 import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 
@@ -33,24 +34,26 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     @Override
     public void doLogin(String email, String password, String[] errors) {
-        int [] credentialStatus = validateUserData(new String[]{email,password});
-        if(!allCredentialsAreValid(credentialStatus))
-            mView.errorData(credentialStatus,null);
-        else{
-            mRepository.authentication(email, password, new TasksDataSource.FirebaseCallback() {
-            @Override
-            public void success(Task<?> task) {
-                String authToken = ((GetTokenResult)task.getResult()).getToken();
-            }
+        int[] credentialStatus = validateUserData(new String[]{email, password});
+        if (!allCredentialsAreValid(credentialStatus))
+            mView.errorData(credentialStatus, null);
+        else {
+            mRepository.authentication(email, password, new TasksDataSource.LoadSessionCallback() {
+                @Override
+                public void success(User user) {
+                       mView.showCalendarView();
+                }
 
-            @Override
-            public void failure(Exception e) {
-                mView.errorData(new int[]{SERVER_ERR,SERVER_ERR}, new String[]{e.getMessage(),e.getMessage()});
-                Log.d(TAG, "failure: "+e.getMessage()+"code:"+e.getLocalizedMessage());
-            }
+                @Override
+                public void failure(Exception e) {
+                    mView.errorData(new int[]{SERVER_ERR,SERVER_ERR}, new String[]{e.getMessage(),e.getMessage()});
+                    Log.d(TAG, "failure: "+e.getMessage()+"code:"+e.getLocalizedMessage());
+                }
             });
         }
     }
+
+
 
 
     @Override

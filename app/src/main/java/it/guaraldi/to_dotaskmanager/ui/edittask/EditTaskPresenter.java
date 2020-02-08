@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
+import it.guaraldi.to_dotaskmanager.data.User;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedInstanceState;
@@ -433,6 +434,23 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
                 Log.d(TAG, "success: ");
                 mView.updateViewTaskData(task.getTitle(),task.getEmail(), task.getPriority(),task.getCategory(),task.getStart(),task.getEnd(),
                         task.getDescription(),task.getColor());
+            }
+        });
+    }
+
+    @Override
+    public void getCurrentUser() {
+        Log.d(TAG, "getCurrentUser: ");
+        mRepository.getCurrentUser(new TasksDataSource.LoadSessionCallback() {
+            @Override
+            public void success(User user) {
+                Log.d(TAG, "success: email="+user.getEmail());
+                mView.updateEmail(user.getEmail());
+            }
+
+            @Override
+            public void failure(Exception e) {
+                Log.d(TAG, "failure: ");
             }
         });
     }

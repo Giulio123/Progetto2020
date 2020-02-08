@@ -14,7 +14,7 @@ public interface EditTaskContract {
         void updateDate(String newDate, boolean validDate);
         void updateTime(String newTime, boolean validTime);
         void updatePeriod(String period, int position);
-        void updateEmail();
+        void updateEmail(String email);
         void updateCategory(int position, String category, int typeUpdate);
         void updatePosition();
         void errorSaveTask();
@@ -44,5 +44,6 @@ public interface EditTaskContract {
         void createPeriodicTask();
         void updateCurrentTaskId();
         void getTaskById(int taskId);
+        void getCurrentUser();
     }
 }

@@ -39,9 +39,11 @@ public class LocalDataSource implements TasksDataSource {
     }
 
     @Override
-    public void authentication(String email, String pwd, FirebaseCallback callback) {
+    public void authentication(String email, String pwd, LoadSessionCallback callback) {
 
     }
+
+
 
     @Override
     public void registration(String username, String email, String password, FirebaseCallback callback) {
