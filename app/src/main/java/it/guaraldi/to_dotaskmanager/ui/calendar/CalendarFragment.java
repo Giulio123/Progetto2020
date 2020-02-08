@@ -2,25 +2,6 @@ package it.guaraldi.to_dotaskmanager.ui.calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.alamkanak.weekview.MonthLoader;
-import com.alamkanak.weekview.WeekView;
-import com.github.sundeepk.compactcalendarview.CompactCalendarView;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.Navigation;
-
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +12,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.Navigation;
+
+import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.WeekView;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,7 +64,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         NewsApp.getNewsComponent().inject(this);
         mPresenter.attachView(this);
-        return inflater.inflate(R.layout.calendar_fragment,container,false);
+        return inflater.inflate(R.layout.calendar_fragment_new, container, false);
     }
 
     @Override
@@ -257,12 +254,12 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         fab2.setOnClickListener(this);
         Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        //       DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
+        //       ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+        //       toggle.syncState();
+//        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
         appBarLayout = getActivity().findViewById(R.id.app_bar_layout);
         //CompactCalendarView
         compactCalendarView = getActivity().findViewById(R.id.compactcalendar_view);
@@ -299,12 +296,12 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         mWeekView = (WeekView) getActivity().findViewById(R.id.weekView);
 
         setCurrentDate(new Date());
-        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
-        View navHeaderView = navigationView.inflateHeaderView(R.layout.calendar_fragment_nav_header);
-        TextView navHeaderUserName= navHeaderView.findViewById(R.id.nav_header_username);
-        TextView navHeaderEmail = navHeaderView.findViewById(R.id.nav_header_email);
-        navHeaderUserName.setText(data.getString("USERNAME"));
-        navHeaderEmail.setText(data.getString("EMAIL"));
+//        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
+//        View navHeaderView = navigationView.inflateHeaderView(R.layout.calendar_fragment_nav_header);
+//        TextView navHeaderUserName= navHeaderView.findViewById(R.id.nav_header_username);
+//        TextView navHeaderEmail = navHeaderView.findViewById(R.id.nav_header_email);
+//        navHeaderUserName.setText(data.getString("USERNAME"));
+//        navHeaderEmail.setText(data.getString("EMAIL"));
 //        startNotificationService();
     }
 

@@ -1,20 +1,22 @@
 package it.guaraldi.to_dotaskmanager.ui.base;
 
-import android.accounts.AccountAuthenticatorActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
+
 import butterknife.Unbinder;
 import it.guaraldi.to_dotaskmanager.utils.DialogUtil;
 
-public abstract class BaseActivity extends AppCompatActivity implements IBaseView{
+public abstract class BaseActivity extends AppCompatActivity implements IBaseView {
     protected ProgressDialog mProgressDialog;
     protected Unbinder mUnBinder;
-    private AccountAuthenticatorActivity a;//TODO RIMUOVI STA MERDA
+
     public void showLoading() {
         hideLoading();
         mProgressDialog = DialogUtil.showLoadingDialog(this);
