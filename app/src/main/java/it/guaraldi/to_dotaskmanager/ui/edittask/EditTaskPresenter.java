@@ -3,11 +3,14 @@ package it.guaraldi.to_dotaskmanager.ui.edittask;
 import android.util.Log;
 
 import java.text.ParseException;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -17,6 +20,7 @@ import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.data.User;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
+import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedInstanceState;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child.ChildPersonalizedInstanceState;
 import it.guaraldi.to_dotaskmanager.utils.DateUtils;
@@ -44,10 +48,21 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
                             String color, PersonalizedInstanceState personalizedInstance, ChildPersonalizedInstanceState childPersonalizedInstance) {
 
 
-        String start = allDay ? Long.toString(DateUtils.stringToLongAllDayDate(dateStart)):
-                                Long.toString(DateUtils.stringToLongCompleteDate(dateStart,timeStart));
-        String end = allDay? Long.toString(DateUtils.stringToLongAllDayDate(dateEnd)):
-                             Long.toString(DateUtils.stringToLongCompleteDate(dateEnd,timeEnd));
+         Calendar startCal = Calendar.getInstance();
+         Calendar endCal = Calendar.getInstance();
+
+         if(allDay) {
+            startCal.setTimeInMillis(DateUtils.stringToLongAllDayDate(dateStart));
+            endCal.setTimeInMillis(DateUtils.stringToLongAllDayDate(dateEnd));
+         }
+         else {
+            startCal.setTimeInMillis(DateUtils.stringToLongCompleteDate(dateStart, timeStart));
+            endCal.setTimeInMillis(DateUtils.stringToLongCompleteDate(dateEnd,timeEnd));
+         }
+
+        String start = String.valueOf(startCal.getTimeInMillis());
+        String end = String.valueOf(endCal.getTimeInMillis());
+
 
         if(isReply){
             Log.d(TAG, "saveNewTask: IS REPLY");
@@ -58,7 +73,7 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
                     String groupId = UUID.randomUUID().toString();
                     Task task = new Task(Integer.toString(mCurrentTaskId), title, email, allDay,groupId, priority,
                             category,"PENDING", start,end,"0,0","0,0",description,color);
-
+                    Log.d(TAG, "saveNewTask: start="+DateUtils.longToStringCompleteInformationDate(Long.parseLong(start)));
                     Log.d(TAG, "saveNewTask: getMonthSpinnerId="+childPersonalizedInstance.getMonthSpinnerId());
                     Log.d(TAG, "saveNewTask: getMonthSpinner="+childPersonalizedInstance.getMonthSpinner());
 
@@ -154,7 +169,7 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
          Task task = new Task(String.valueOf(mCurrentTaskId),title,email,allDay,String.valueOf(mCurrentTaskId),priority,
                 category,"PENDING",start,end,"0.0","0.0",
                 description,color);
-
+        Log.d(TAG, "saveNewTask: TASK DATE==="+DateUtils.longToStringCompleteInformationDate(Long.valueOf(start)));
         mRepository.createTask(task, new TasksDataSource.DBCallback() {
             @Override
             public void success() {

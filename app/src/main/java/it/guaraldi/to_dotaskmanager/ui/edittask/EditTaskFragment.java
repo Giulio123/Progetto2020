@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -314,8 +315,8 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
         notificationData.putInt(Const.NOTIFICATION_ID,id);
         notificationData.putLong(Const.START_DATE,startDate);
         notificationData.putInt(Const.PRIORITY,priority);
-
-        Intent broadcastIntent = new Intent(Const.ADD_NOTIFICATION);
+        Intent broadcastIntent = new Intent(getContext(), NotificationReceiver.class);
+        broadcastIntent.setAction(Const.ADD_NOTIFICATION);
         broadcastIntent.putExtra("NOTIFICATION_DATA",notificationData);
         Log.d(TAG, "NOTIFICATION DATA CONTENT ");
         for(String key: notificationData.keySet())
@@ -426,7 +427,7 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
         Log.d(TAG, "onClick: id:" + getResources().getResourceName(v.getId()));
         switch (v.getId()) {
             case R.id.save_edit_task:
-                boolean isReplay = !(repeatTv.getText().toString().equals(getString(R.string.dont_repeat)));
+                boolean isReplay = (repeatTv.getText().toString().equals(getString(R.string.dont_repeat)));
                 mPresenter.saveNewTask(title.getText().toString(),email.getText().toString(),aSwitchAllDay.isChecked(),
                          Integer.parseInt((String)priorityS.getSelectedItem()),category.getText().toString(),startDate.getText().toString(),
                         startTime.getText().toString(),endDate.getText().toString(),endTime.getText().toString(),

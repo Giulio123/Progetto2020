@@ -9,12 +9,14 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DateUtils {
-    public static final SimpleDateFormat formatDataText = new SimpleDateFormat("E dd MMM yyyy", Locale.ENGLISH);
-    public static final SimpleDateFormat formatTimeText = new SimpleDateFormat("HH:mm",Locale.ENGLISH);
-    public static final SimpleDateFormat formatDateLastDayText = new SimpleDateFormat("d MMM  yyyy",Locale.ENGLISH);
-    public static final SimpleDateFormat formatDateRepeatedField = new SimpleDateFormat("MMM d",Locale.ENGLISH);
-    public static final SimpleDateFormat formatCompleteInformation = new SimpleDateFormat("E dd MMM yyyy HH:mm",Locale.getDefault());
-    public static final SimpleDateFormat formatMonthTitle = new SimpleDateFormat("MMMM", /*Locale.getDefault()*/Locale.ENGLISH);
+    private static final String TAG = "DateUtils";
+    public static final SimpleDateFormat formatDataText = new SimpleDateFormat("E dd MMM yyyy", Locale.getDefault());
+    public static final SimpleDateFormat formatTimeText = new SimpleDateFormat("HH:mm",Locale.getDefault());
+    public static final SimpleDateFormat formatDateLastDayText = new SimpleDateFormat("d MMM  yyyy",Locale.getDefault());
+    public static final SimpleDateFormat formatDateRepeatedField = new SimpleDateFormat("MMM d",Locale.getDefault());
+    public static final SimpleDateFormat formatCompleteInformation = new SimpleDateFormat("EEE d MMM HH:mm:ss yyyy",Locale.getDefault());
+    public static final SimpleDateFormat formatMillisec = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS",Locale.getDefault());
+    public static final SimpleDateFormat formatMonthTitle = new SimpleDateFormat("MMMM", /*Locale.getDefault()*/Locale.getDefault());
 
     public static String formatDate(Date date){
         String res = formatDataText.format(date);
@@ -119,8 +121,12 @@ public class DateUtils {
     public static long stringToLongCompleteDate(String date, String time){
         Calendar cDate = stringToCalendarDate(date);
         Calendar cTime = stringToCalendarTime(time);
+        Log.d(TAG, "stringToLongCompleteDate: cdate="+cDate.getTime());
         cDate.set(Calendar.HOUR_OF_DAY,cTime.get(Calendar.HOUR_OF_DAY));
+        Log.d(TAG, "stringToLongCompleteDate: cdate="+cDate.getTime());
         cDate.set(Calendar.MINUTE,cTime.get(Calendar.MINUTE));
+        Log.d(TAG, "stringToLongCompleteDate: cDate="+cDate.getTime());
+        Log.d(TAG, "stringToLongCompleteDate: getTimeMil="+DateUtils.longToStringCompleteInformationDate(cDate.getTimeInMillis()));
         return cDate.getTimeInMillis();
     }
 
@@ -159,6 +165,8 @@ public class DateUtils {
         d.set(Calendar.YEAR,c.get(Calendar.YEAR));
         d.set(Calendar.MONTH,c.get(Calendar.MONTH));
         d.set(Calendar.DAY_OF_MONTH,c.get(Calendar.DAY_OF_MONTH));
+        d.set(Calendar.HOUR_OF_DAY,c.get(Calendar.HOUR_OF_DAY));
+        d.set(Calendar.MINUTE,c.get(Calendar.MINUTE));
         return calendarToStringCompleteInformationDate(d);
     }
 }

@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -30,16 +31,15 @@ public class NotificationReceiver extends BroadcastReceiver implements Notificat
         if(intent!=null) {
             if (intent.getAction() == Const.ADD_NOTIFICATION) {
                 Log.d(TAG, "onReceive: action ="+intent.getAction());
-
+                
                 long startAllarm = intent.getBundleExtra(Const.NOTIFICATION_DATA).getLong(Const.START_DATE);
-                Log.d(TAG, "onReceive: startAlarm ="+ DateUtils.longToStringCompleteInformationDate(startAllarm));
                 Intent alarmIntent = new Intent(context, NotificationIntentService.class);
                 alarmIntent.setAction(Long.toString(System.currentTimeMillis()));
                 alarmIntent.putExtra(Const.NOTIFICATION_DATA, intent.getBundleExtra(Const.NOTIFICATION_DATA));
 
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, startAllarm,
-                        PendingIntent.getService(context, 0, alarmIntent, 0));
+                        PendingIntent.getService(context, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT));
             }
             if(intent.getAction() != Const.POSTPONE) {
                 Log.d(TAG, "onReceive: action = " + intent.getAction());
