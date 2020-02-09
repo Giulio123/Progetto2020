@@ -1,10 +1,13 @@
 package it.guaraldi.to_dotaskmanager.ui.edittask;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,6 +20,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.core.content.ContextCompat;
@@ -306,24 +310,54 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
 
     @Override
     public void showCalendarView(String taskTitle, String duration, int id, long startDate, int priority) {
-        Log.d(TAG, "showCalendarView: tasktitle="+taskTitle+" duration="+duration+" id="+id+" startdate="+startDate+" priority="+priority);
-        //TODO LANCIA ALLARME NOTIFICA
+        Log.d(TAG, "[debug] showCalendarView: tasktitle='"+taskTitle+"' duration="+duration+" id="+id+" startdate="+startDate+" priority="+priority);
 
-        Bundle notificationData = new Bundle();
-        notificationData.putString(Const.CONTENT_TITLE,taskTitle);
-        notificationData.putString(Const.CONTENT_TEXT,duration);
-        notificationData.putInt(Const.NOTIFICATION_ID,id);
-        notificationData.putLong(Const.START_DATE,startDate);
-        notificationData.putInt(Const.PRIORITY,priority);
-        Intent broadcastIntent = new Intent(getContext(), NotificationReceiver.class);
-        broadcastIntent.setAction(Const.ADD_NOTIFICATION);
-        broadcastIntent.putExtra("NOTIFICATION_DATA",notificationData);
-        Log.d(TAG, "NOTIFICATION DATA CONTENT ");
-        for(String key: notificationData.keySet())
-            Log.d(TAG, key+" = "+notificationData.get(key));
-        getActivity().sendBroadcast(broadcastIntent);
+        String channelId = "";
+        int notificationPriority = -1;
+        switch (priority) {
+            case 1:
+                channelId = "minPriorityChannel";
+                notificationPriority = NotificationCompat.PRIORITY_MIN;
+                break;
+            case 2:
+                channelId = "lowPriorityChannel";
+                notificationPriority = NotificationCompat.PRIORITY_LOW;
+                break;
+            case 3:
+                channelId = "defaultPriorityChannel";
+                notificationPriority = NotificationCompat.PRIORITY_DEFAULT;
+                break;
+            case 4:
+                channelId = "highPriorityChannel";
+                notificationPriority = NotificationCompat.PRIORITY_HIGH;
+                break;
+        }
 
+        Notification notification = getNotification(taskTitle, duration, channelId, notificationPriority);
+        scheduleNotification(notification, id, startDate);
         Navigation.findNavController(getView()).navigate(R.id.action_editTaskFragment_to_calendarFragment);
+    }
+
+    private void scheduleNotification(Notification notification, int id, long futureInMillis) {
+        Log.d(TAG, "[debug] scheduleNotification: dateStart = " + DateUtils.longToStringCompleteInformationDate(futureInMillis));
+        Intent notificationIntent = new Intent(getActivity(), NotificationReceiver.class);
+        notificationIntent.setAction(Const.ADD_NOTIFICATION);
+        notificationIntent.putExtra(Const.NOTIFICATION_ID, id);
+        notificationIntent.putExtra(Const.NOTIFICATION, notification);
+
+        Log.d(TAG, "[debug] scheduleNotification: id="+notificationIntent.getIntExtra(Const.NOTIFICATION_ID,0)+" PARCEBLE="+notificationIntent.getParcelableExtra(Const.NOTIFICATION));
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Notification getNotification(String title, String content, String channelId, int priority) {
+        return new NotificationCompat.Builder(getActivity(),channelId)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle("Scheduled Notification")
+                .setContentText(content)
+                .setPriority(priority).build();
     }
 
     @Override

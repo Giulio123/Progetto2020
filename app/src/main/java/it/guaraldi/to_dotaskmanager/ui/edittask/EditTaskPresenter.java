@@ -174,7 +174,7 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
         mRepository.createTask(task, new TasksDataSource.DBCallback() {
             @Override
             public void success() {
-                Log.d(TAG, "success: TASK ADDED!");
+                Log.d(TAG, "[debug] success: TASK ADDED!");
                 String duration = "Today at "+timeStart+" to "+timeEnd;
                 updateCurrentTaskId();
 

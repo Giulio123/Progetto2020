@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
+import it.guaraldi.to_dotaskmanager.data.User;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
 

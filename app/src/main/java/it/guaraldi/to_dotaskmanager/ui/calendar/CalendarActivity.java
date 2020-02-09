@@ -32,22 +32,26 @@ public class CalendarActivity extends BaseActivity {
             String description = "ProvaCanaleDescr";
 
             for (int i = 1; i < 5; i++) {
-                int importance = i;
+                int importance = NotificationManager.IMPORTANCE_UNSPECIFIED;
                 String channelId = "";
                 if (i == 1) {
+                    importance = NotificationManager.IMPORTANCE_MIN;
                     channelId = "minPriorityChannel";
                 } else if (i == 2) {
+                    importance = NotificationManager.IMPORTANCE_LOW;
                     channelId = "lowPriorityChannel";
                 } else if (i == 3) {
+                    importance = NotificationManager.IMPORTANCE_DEFAULT;
                     channelId = "defaultPriorityChannel";
                 } else if (i == 4) {
+                    importance = NotificationManager.IMPORTANCE_HIGH;
                     channelId = "highPriorityChannel";
                 }
                 NotificationChannel channel = new NotificationChannel(channelId, name, importance);
                 channel.setDescription(description);
                 NotificationManager notificationManager = getSystemService(NotificationManager.class);
                 notificationManager.createNotificationChannel(channel);
-                Log.d(TAG, "Creato canale con params " + channelId+ " " + name + " " + importance);
+                Log.d(TAG, "[debug] Creato canale con params " + channelId+ " " + name + " " + importance);
             }
         }
     }
