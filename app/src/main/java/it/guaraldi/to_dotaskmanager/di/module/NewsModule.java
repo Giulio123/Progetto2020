@@ -11,6 +11,7 @@ import dagger.Provides;
 import it.guaraldi.to_dotaskmanager.ui.edittask.EditTaskPresenter;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedPresenter;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child.ChildPersonalizedPresenter;
+import it.guaraldi.to_dotaskmanager.ui.graphic.GraphicPresenter;
 import it.guaraldi.to_dotaskmanager.ui.login.LoginPresenter;
 import it.guaraldi.to_dotaskmanager.ui.registration.RegistrationPresenter;
 
@@ -64,4 +65,11 @@ public class NewsModule {
     public NotificationReceiverPresenter providesNotificationReceiverPresenter(TasksRepository repository){
         return new NotificationReceiverPresenter(repository);
     }
+
+    @Provides
+    @NewsScope
+    public GraphicPresenter providesGraphicPresenter(TasksRepository repository) {
+        return new GraphicPresenter(repository);
+    }
+
 }

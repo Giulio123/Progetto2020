@@ -217,6 +217,22 @@ public class LocalDataSource implements TasksDataSource {
         });
     }
 
+    @Override
+    public void getAllTaskByCategory(String category, DBCallBackTasks callBackTasks) {
+        mAppExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Task> tasks = mTaskDao.getAllTaskByCategory(category);
+                mAppExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBackTasks.success(tasks);
+                    }
+                });
+            }
+        });
+    }
+
 
     @Override
     public void reauthentication(String email, String password, FirebaseCallback callback) {

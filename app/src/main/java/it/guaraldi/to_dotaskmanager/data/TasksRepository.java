@@ -302,6 +302,16 @@ public class TasksRepository implements TasksDataSource {
 
     }
 
+    @Override
+    public void getAllTaskByCategory(String category,DBCallBackTasks callBackTasks) {
+        mLocalDataSource.getAllTaskByCategory(category,new DBCallBackTasks() {
+            @Override
+            public void success(List<Task> tasks) {
+                callBackTasks.success(tasks);
+            }
+        });
+    }
+
 
     @Override
     public void reauthentication(String email, String password, FirebaseCallback callback) {

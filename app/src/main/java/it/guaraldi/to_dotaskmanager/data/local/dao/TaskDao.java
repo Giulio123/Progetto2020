@@ -48,6 +48,9 @@ public interface TaskDao {
 
     @Query("SELECT * FROM task WHERE id=:taskId")
     Task getTaskById(int taskId);
+
+    @Query("SELECT * FROM task WHERE category LIKE :categor ORDER BY status ASC")
+    List<Task> getAllTaskByCategory(String categor);
     /**
      * Insert a task in the database. If the task already exists, replace it.
      *

@@ -140,9 +140,9 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings)
-            return true;
-        return super.onOptionsItemSelected(item);
+        if (id == R.id.action_graphic_fragment)
+            Navigation.findNavController(getView()).navigate(R.id.action_calendarFragment_to_graphicFragment);
+        return true;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

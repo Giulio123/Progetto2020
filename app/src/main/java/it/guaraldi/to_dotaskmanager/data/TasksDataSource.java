@@ -31,7 +31,7 @@ public interface TasksDataSource {
     void deleteTask(int taskId, DBCallback callback);
     void deleteAllTasks(DBCallback callback);
     void getTaskById(int taskId, DBCallBackTasks callBackTasks);
-
+    void getAllTaskByCategory(String category,DBCallBackTasks callBackTasks);
     //TODO RISTRUTTARE STA MERDA
     void reauthentication(String email, String password, FirebaseCallback callback);
     void getAuthToken(LoadStringCallback stringcallback);

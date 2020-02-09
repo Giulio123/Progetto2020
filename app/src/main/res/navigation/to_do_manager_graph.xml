@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_calendarFragment_to_taskDetailsFragment"
             app:destination="@id/taskDetailsFragment" />
+        <action
+            android:id="@+id/action_calendarFragment_to_graphicFragment"
+            app:destination="@id/graphicFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -85,4 +88,9 @@
             android:id="@+id/action_taskDetailsFragment_to_calendarFragment"
             app:destination="@id/calendarFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/graphicFragment"
+        android:name="it.guaraldi.to_dotaskmanager.ui.graphic.GraphicFragment"
+        android:label="graphic_fragment"
+        tools:layout="@layout/graphic_fragment" />
 </navigation>

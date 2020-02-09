@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import it.guaraldi.to_dotaskmanager.NewsApp;
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
+import it.guaraldi.to_dotaskmanager.utils.DateUtils;
 
 public class NotificationReceiver extends BroadcastReceiver implements NotificationReceiverContract.View {
 
@@ -31,7 +32,7 @@ public class NotificationReceiver extends BroadcastReceiver implements Notificat
                 Log.d(TAG, "onReceive: action ="+intent.getAction());
 
                 long startAllarm = intent.getBundleExtra(Const.NOTIFICATION_DATA).getLong(Const.START_DATE);
-
+                Log.d(TAG, "onReceive: startAlarm ="+ DateUtils.longToStringCompleteInformationDate(startAllarm));
                 Intent alarmIntent = new Intent(context, NotificationIntentService.class);
                 alarmIntent.setAction(Long.toString(System.currentTimeMillis()));
                 alarmIntent.putExtra(Const.NOTIFICATION_DATA, intent.getBundleExtra(Const.NOTIFICATION_DATA));

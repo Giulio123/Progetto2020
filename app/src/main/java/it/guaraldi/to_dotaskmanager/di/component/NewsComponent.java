@@ -9,6 +9,7 @@ import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.EditTaskFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child.ChildPersonalizedFragment;
+import it.guaraldi.to_dotaskmanager.ui.graphic.GraphicFragment;
 import it.guaraldi.to_dotaskmanager.ui.login.LoginFragment;
 import it.guaraldi.to_dotaskmanager.ui.registration.RegistrationFragment;
 
@@ -23,4 +24,5 @@ public interface NewsComponent {
     void inject(ChildPersonalizedFragment fragment);
     void inject(TaskDetailsFragment taskDetailsFragment);
     void inject(NotificationReceiver notificationReceiver);
+    void inject(GraphicFragment graphicFragment);
 }

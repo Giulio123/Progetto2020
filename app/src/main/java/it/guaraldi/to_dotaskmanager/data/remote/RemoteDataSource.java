@@ -185,6 +185,11 @@ public class RemoteDataSource implements TasksDataSource {
     }
 
     @Override
+    public void getAllTaskByCategory(String category, DBCallBackTasks callBackTasks) {
+
+    }
+
+    @Override
     public void reauthentication(String email, String password, FirebaseCallback callback) {
         Log.d(TAG, "reauthentication: ");
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(mAppExecutors.networkIO(), new OnCompleteListener<AuthResult>() {
