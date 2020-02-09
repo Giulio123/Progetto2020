@@ -1,6 +1,7 @@
 package it.guaraldi.to_dotaskmanager.ui.base;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -18,6 +19,22 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
     private BaseActivity mActivity;
     private Unbinder mUnBinder;
 
+    protected final String[] months = new String[] {
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
+    };
+
+    protected final String[] parties = new String[] {
+            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
+            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
+            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
+            "Party Y", "Party Z"
+    };
+
+    private static final int PERMISSION_STORAGE = 0;
+
+    protected Typeface tfRegular;
+    protected Typeface tfLight;
+
     protected final static int NO_SELECTION = -1;
     protected final static String RESTORE_STATE = "RESTORE_STATE";
     protected final static String ARGS = "ARGS";
@@ -32,6 +49,13 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
     }
 
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        tfRegular = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
+        tfLight = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -71,6 +73,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     static LocalDate selectedDate = null;
     private TasksAdapter tasksAdapter;
     private CalendarView calendarView;
+    private Toolbar mToolbar;
     private List<Task> tasks;
 
     @Nullable
@@ -92,13 +95,20 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
                 mPresenter.openEditTask(mIntent.getBundleExtra(Const.TASK_DATA));
         }
 
+
         mPresenter.attachView(this);
         mPresenter.checkSession();
         mPresenter.updateMonthTask(LocalDate.now());
+
+        mToolbar = getActivity().findViewById(R.id.toolbar_calendar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        setHasOptionsMenu(true);
         FloatingActionButton floatingActionButton = getActivity().findViewById(R.id.fab_edit_task);
         floatingActionButton.setOnClickListener(v -> mPresenter.addNewTask());
         initCalendar();
     }
+
+
 
     @Override
     public void onResume() {

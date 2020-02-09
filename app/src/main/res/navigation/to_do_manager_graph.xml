@@ -92,5 +92,9 @@
         android:id="@+id/graphicFragment"
         android:name="it.guaraldi.to_dotaskmanager.ui.graphic.GraphicFragment"
         android:label="graphic_fragment"
-        tools:layout="@layout/graphic_fragment" />
+        tools:layout="@layout/graphic_fragment" >
+        <action
+            android:id="@+id/action_graphicFragment_to_calendarFragment"
+            app:destination="@id/calendarFragment" />
+    </fragment>
 </navigation>
