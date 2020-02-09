@@ -1,8 +1,10 @@
 package it.guaraldi.to_dotaskmanager.ui.calendar;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,30 +12,36 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.ViewCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
-import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
+import com.kizitonwose.calendarview.CalendarView;
+import com.kizitonwose.calendarview.model.CalendarDay;
+import com.kizitonwose.calendarview.model.CalendarMonth;
+import com.kizitonwose.calendarview.model.DayOwner;
+import com.kizitonwose.calendarview.ui.DayBinder;
+import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder;
+
+import org.threeten.bp.DayOfWeek;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.YearMonth;
+import org.threeten.bp.format.TextStyle;
+import org.threeten.bp.temporal.WeekFields;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -44,19 +52,27 @@ import it.guaraldi.to_dotaskmanager.notification.Const;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
 import it.guaraldi.to_dotaskmanager.utils.DateUtils;
 
+import static java.util.Locale.ENGLISH;
 
-public class CalendarFragment extends BaseFragment implements CalendarContract.View, View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+
+public class CalendarFragment extends BaseFragment implements CalendarContract.View {
 
     @Inject CalendarPresenter mPresenter;
     private static final String TAG = "CalendarFragment";
     private AppBarLayout appBarLayout;
-    private CompactCalendarView compactCalendarView;
+
     private boolean isExpanded = false;
     private WeekView mWeekView;
     private WeekView.EventClickListener mEventClickListener;
     private WeekView.EventLongPressListener mEventLongPressListener;
     private MonthLoader.MonthChangeListener mMonthChangeListener;
     private Intent mIntent;
+    private DayOfWeek[] daysOfWeek;
+    static LocalDate selectedDate = null;
+    private TasksAdapter tasksAdapter;
+    private CalendarView calendarView;
+    private List<Task> tasks;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,49 +91,25 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
             if(mIntent.getAction() == Const.POSTPONE_TASK_F)
                 mPresenter.openEditTask(mIntent.getBundleExtra(Const.TASK_DATA));
         }
+
         mPresenter.attachView(this);
         mPresenter.checkSession();
+        mPresenter.updateMonthTask(LocalDate.now());
+        FloatingActionButton floatingActionButton = getActivity().findViewById(R.id.fab_edit_task);
+        floatingActionButton.setOnClickListener(v -> mPresenter.addNewTask());
+        initCalendar();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-
-
-    }
     @Override
     public void onResume() {
         super.onResume();
         mPresenter.getSizeTableTasks();
         mPresenter.getLastId();
         mPresenter.printAllTasks();
-
-
-//// Set an action when any event is clicked.
-//        mWeekView.setOnEventClickListener(new WeekView.EventClickListener() {
-//            @Override
-//            public void onEventClick(WeekViewEvent event, RectF eventRect) {
-//                Navigation.findNavController(getView()).navigate(R.id.action_calendarFragment_to_taskDetailsFragment);
-//            }
-//        });
-//
-//// The week view has infinite scrolling horizontally. We have to provide the events of a
-//// month every time the month changes on the week view.
-//        mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
-//            @Override
-//            public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-//                return null;
-//            }
-//        });
-//
-//// Set long press listener for events.
-//        mWeekView.setEventLongPressListener(mEventLongPressListener);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    protected void initViews() {
 
     }
 
@@ -144,40 +136,6 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
             Navigation.findNavController(getView()).navigate(R.id.action_calendarFragment_to_graphicFragment);
         return true;
     }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            mPresenter.signOut();
-
-        } else if (id == R.id.nav_gallery) {
-            mPresenter.deleteAllTasks();
-        } else if (id == R.id.nav_slideshow) {
-
-            Calendar start = createCalendar(27,Calendar.FEBRUARY,2020,23,50);
-            Calendar end = createCalendar(27, Calendar.FEBRUARY,2020,23,55);
-            Calendar startFirstDay = copyCalendar(start);
-            startFirstDay.set(Calendar.DAY_OF_MONTH,1);
-            Calendar endDay = createCalendar(31,Calendar.MARCH,2021,0,0);
-            Task task = fakeTask(start.getTimeInMillis(),end.getTimeInMillis());
-            String groupId = UUID.randomUUID().toString();
-            pippo(task,new int[]{Calendar.MONDAY,Calendar.WEDNESDAY,Calendar.FRIDAY},endDay,groupId);
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        return true;
-    }
-
-
 
     @Override
     public void showCalendar() {
@@ -211,7 +169,13 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     }
 
     @Override
-    public void updateData() {
+    public void updateData(List<Task> tasks) {
+        this.tasks = tasks;
+
+
+    }
+
+    private void updateAdapter() {
 
     }
 
@@ -230,56 +194,138 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
             Navigation.findNavController(getView()).navigate(R.id.action_calendarFragment_to_loginFragment);
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.fab_edit_task:
-                    mPresenter.addNewTask();
-                break;
-            case R.id.left_fab:
-                Navigation.findNavController(getView()).navigate(R.id.action_calendarFragment_to_loginFragment);
-                break;
-        }
+    public static void setSelectedDate(LocalDate date) {
+        CalendarFragment.selectedDate = date;
     }
 
-    @Override
-    protected void initViews() {
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_task);
-        FloatingActionButton fab2 = (FloatingActionButton)getActivity().findViewById(R.id.left_fab);
-        fab.setOnClickListener(this);
-        fab2.setOnClickListener(this);
-        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        //       DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
-        //       ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-        //       toggle.syncState();
-//        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-        appBarLayout = getActivity().findViewById(R.id.app_bar_layout);
-        //CompactCalendarView
-        compactCalendarView = getActivity().findViewById(R.id.compactcalendar_view);
-        compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
+    private void onClickCustom() {
+
+    }
+
+    private void initCalendar() {
+
+        // TODO Move con method, this wil setUp RecyclerView
+        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.exFiveRv);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        tasksAdapter = new TasksAdapter(new ArrayList<>());
+        recyclerView.setAdapter(tasksAdapter);
+
+        calendarView = getActivity().findViewById(R.id.calendarView);
+        ImageView exFiveNextMonthImage = getActivity().findViewById(R.id.exFiveNextMonthImage);
+        ImageView exFivePreviousMonthImage = getActivity().findViewById(R.id.exFivePreviousMonthImage);
+        TextView exFiveMonthYearText = getActivity().findViewById(R.id.exFiveMonthYearText);
+
+        daysOfWeek = this.daysOfWeekFromLocale();
+
+        YearMonth currentMonth = YearMonth.now();
+        calendarView.setup(currentMonth.minusMonths(10), currentMonth.plusMonths(10), daysOfWeek[0]);
+        exFiveMonthYearText.setText(currentMonth.getMonth().getDisplayName(TextStyle.SHORT, ENGLISH) + " " + currentMonth.getYear());
+        calendarView.scrollToMonth(currentMonth);
+        /******* Roba molto BRUTTA **********/
+        CalendarFragment calendarFragment = this;
+        calendarView.setDayBinder(new DayBinder<CalendarDayView>() {
             @Override
-            public void onDayClick(Date dateClicked) {
+            public CalendarDayView create(View view) {
+                return new CalendarDayView(view, calendarView, calendarFragment);
             }
 
             @Override
-            public void onMonthScroll(Date firstDayOfNewMonth) {
-                mPresenter.getMonthTasks(Calendar.getInstance());
-                setSubtitle(DateUtils.formatMonthTitle(firstDayOfNewMonth));
+            public void bind(CalendarDayView container, CalendarDay day) {
+                container.day = day;
+                TextView textView = container.textView;
+                ConstraintLayout layout = container.layout;
+                textView.setText(Integer.toString(day.getDate().getDayOfMonth()));
+
+                View flightTopView = container.flightTopView;
+                View flightBottomView = container.flightBottomView;
+
+                flightTopView.setBackground(null);
+                flightBottomView.setBackground(null);
+
+                if (day.getOwner() == DayOwner.THIS_MONTH) {
+                    textView.setTextColor(getResources().getColor(R.color.example_5_text_grey));
+                    if (CalendarFragment.selectedDate == day.getDate()) {
+                        layout.setBackgroundResource(R.drawable.example_5_selected_bg);
+                    } else {
+                        layout.setBackgroundResource(0);
+                    }
+                    // TODO settare colore in base al colore del task
+                    List<Task> localTasks = mPresenter.getTasksOfDay(day.getDate());
+                    if (localTasks != null && localTasks.size() > 0) {
+                        flightTopView.setBackgroundColor(getContext().getColor(Integer.parseInt(localTasks.get(0).getColor())));
+                        //  flightBottomView.setBackgroundColor(.context.getColorCompat(flights[1].color));
+                    }
+                } else {
+                    textView.setTextColor(getResources().getColor(R.color.example_5_text_grey_light));
+                    layout.setBackground(null);
+                }
+
+                //calendarDayView.textView.setText(Integer.toString(calendarDay.getDate().getDayOfMonth()));
             }
         });
-        ImageView arrow = getActivity().findViewById(R.id.date_picker_arrow);
-        RelativeLayout datePickerButton = getActivity().findViewById(R.id.date_picker_button);
-        datePickerButton.setOnClickListener(v -> {
-            float rotation = isExpanded ? 0 : 180;
-            ViewCompat.animate(arrow).rotation(rotation).start();
-            isExpanded = !isExpanded;
-            appBarLayout.setExpanded(isExpanded, true);
+
+
+        calendarView.setMonthHeaderBinder(new MonthHeaderFooterBinder<CalendarMonthView>() {
+            @Override
+            public void bind(CalendarMonthView container, CalendarMonth month) {
+                if (container.legendLayout.getTag() == null) {
+                    container.legendLayout.setTag(month.getYearMonth());
+                    container.legendLayout.getChildCount();
+                    for (int i = 0; i < container.legendLayout.getChildCount(); i++) {
+                        TextView tv = (TextView) container.legendLayout.getChildAt(i);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            tv.setText(daysOfWeek[i].getDisplayName(TextStyle.SHORT, ENGLISH).toUpperCase(ENGLISH));
+                        }
+                        tv.setTextColor(getResources().getColor(R.color.example_5_text_grey));
+                        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
+                    }
+                }
+            }
+
+            @Override
+            public CalendarMonthView create(View view) {
+                return new CalendarMonthView(view);
+            }
 
         });
+//        calendarView.setMonthScrollListener(month -> {
+//            String title = monthTitleFormatter.format(month.yearMonth) + "" + month.yearMonth.year;
+//            // TODO Settare titolo mese
+//            // exFiveMonthYearText.text = title
+//
+//            if (CalendarFragment.selectedDate != null ) {
+//                CalendarFragment.selectedDate = null;
+//                calendarView.notifyDateChanged(CalendarFragment.selectedDate);
+//            }
+//        }
+//        });
+
+        exFiveNextMonthImage.setOnClickListener(view -> {
+            if (calendarView.findFirstVisibleMonth() != null) {
+                YearMonth nextMonth = calendarView.findFirstVisibleMonth().getYearMonth().plusMonths(1);
+                calendarView.smoothScrollToMonth(nextMonth);
+                exFiveMonthYearText.setText(nextMonth.getMonth().getDisplayName(TextStyle.SHORT, ENGLISH) + " " + nextMonth.getYear());
+            }
+        });
+
+
+        exFivePreviousMonthImage.setOnClickListener(view -> {
+            if (calendarView.findFirstVisibleMonth() != null) {
+                YearMonth nextMonth = calendarView.findFirstVisibleMonth().getYearMonth().minusMonths(1);
+                calendarView.smoothScrollToMonth(nextMonth);
+                exFiveMonthYearText.setText(nextMonth.getMonth().getDisplayName(TextStyle.SHORT, ENGLISH) + " " + nextMonth.getYear());
+            }
+        });
+
+
+        calendarView.notifyCalendarChanged();
 
     }
 
@@ -287,46 +333,14 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     protected void setUp(Bundle data) {
         if(data != null)
             Log.d(TAG, "setUp: data not null");
-        compactCalendarView.setLocale(TimeZone.getDefault(),Locale.ENGLISH);
-        compactCalendarView.setShouldDrawDaysHeader(true);
-        // Get a reference for the week view in the layout.
         mWeekView = (WeekView) getActivity().findViewById(R.id.weekView);
 
         setCurrentDate(new Date());
-//        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
-//        View navHeaderView = navigationView.inflateHeaderView(R.layout.calendar_fragment_nav_header);
-//        TextView navHeaderUserName= navHeaderView.findViewById(R.id.nav_header_username);
-//        TextView navHeaderEmail = navHeaderView.findViewById(R.id.nav_header_email);
-//        navHeaderUserName.setText(data.getString("USERNAME"));
-//        navHeaderEmail.setText(data.getString("EMAIL"));
-//        startNotificationService();
     }
 
 
     private void setCurrentDate(Date date) {
         setSubtitle(DateUtils.formatMonthTitle(date));
-        if (compactCalendarView != null) {
-            compactCalendarView.setCurrentDate(date);
-            mPresenter.getMonthTasks(Calendar.getInstance());
-//            Calendar c = Calendar.getInstance();
-//            c.setTime(date);
-//            int year = c.get(Calendar.YEAR);
-//            int month = c.get(Calendar.MONTH);
-//
-//            mWeekView.setMonthChangeListener(new MonthLoader.MonthChangeListener() {
-//                @Override
-//                public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-//                    Calendar start = Calendar.getInstance();
-//                    Calendar end = Calendar.getInstance();
-//                    start.setTimeInMillis(System.currentTimeMillis());
-//                    end.setTimeInMillis(System.currentTimeMillis()+ 1000 * 60 * 30);
-//                    WeekViewEvent event = new WeekViewEvent(0,"title","location",start,end);
-//                    List<WeekViewEvent> events = new ArrayList<>();
-//                    events.add(event);
-//                    return events;
-//                }
-//            });
-        }
     }
 
     private void setSubtitle(String subtitle) {
@@ -337,325 +351,25 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         }
     }
 
-    private Task fakeTask(long startDate, long endDate){
-        String taskId = "0";
-        String groupId = taskId;
-        String title = "title";
-        String email = "email";
-        boolean allDay = false;
-        int priority = 3;
-        String category = "family";
-        String start = String.valueOf(startDate);
-        String end = String.valueOf(endDate);
-        String description = "description";
-        String color = "color";
-        return new Task(taskId,groupId, title, email, allDay, priority, category,
-                start,end,description,color);
-    }
-    private void cacca(){
-
+    // ToDO update event adapter!!!!!
+    public void updateAdapterForDate(LocalDate date) {
+        List<Task> filterdTasks = mPresenter.getTasksOfDay(date);
+        tasksAdapter.setDataset(filterdTasks);
+        tasksAdapter.notifyDataSetChanged();
     }
 
 
-    private Task createNewTask(Task task,String groupId,long startTime,long endTime){
-        String startDate = String.valueOf(startTime);
-        String endDate = String.valueOf(endTime);
-
-        return new Task(task.getId(),task.getTitle(),task.getEmail(),task.isAllDay(),groupId,task.getPriority(),
-                task.getCategory(),task.getStatus(),startDate,endDate,task.getLongitude(),task.getLatitude(),
-                task.getDescription(),task.getColor());
-    }
-    private void modifyCalendar(Calendar c,int day, int month, int year,int hour, int minute){
-        if(day!=-1)
-            c.set(Calendar.DAY_OF_MONTH,day);
-        if(month!=-1)
-            c.set(Calendar.MONTH,month);
-        if(year!=-1)
-            c.set(Calendar.YEAR,year);
-        if(hour!=-1)
-            c.set(Calendar.HOUR_OF_DAY,hour);
-        if(minute!=-1)
-            c.set(Calendar.MINUTE,minute);
-    }
-    private int getDifference(Calendar smaller, Calendar bigger){
-        int smallerDom = smaller.get(Calendar.DAY_OF_MONTH);
-        int biggerDom = bigger.get(Calendar.DAY_OF_MONTH);
-
-        int smallerMonth = smaller.get(Calendar.MONTH);
-        int biggerMonth = bigger.get(Calendar.MONTH);
-
-        int smallerYear = smaller.get(Calendar.YEAR);
-        int biggerYear = bigger.get(Calendar.YEAR);
-
-        if(smallerMonth == biggerMonth)
-            return biggerDom - smallerDom;
-
-        else{
-
-            int numberMonths = biggerYear>smallerYear ? 12 + biggerMonth - smallerMonth:
-                    biggerMonth - smallerMonth;
-            int numberOfDays = 0;
-
-            for(int i = 0 ; i < numberMonths; i++){
-                if(i==0)
-                    numberOfDays = getLastDayOfMonth(smallerMonth, smaller.get(Calendar.YEAR)) - smallerDom;
-                else
-                    numberOfDays += smallerMonth+i == Calendar.JANUARY ?
-                                getLastDayOfMonth(smallerMonth + i, biggerYear):
-                                getLastDayOfMonth(smallerMonth + i, smallerYear);
-                if(i+1 == numberMonths)
-                    numberOfDays += biggerDom;
-            }
-            return numberOfDays;
-        }
-    }
-    private int getLastDayOfMonth(int month, int year){
-        int result = -1;
-        switch (month){
-            case Calendar.NOVEMBER:
-            case Calendar.APRIL:
-            case Calendar.JUNE:
-            case Calendar.SEPTEMBER:
-                result = 30;
-                break;
-            case Calendar.FEBRUARY:
-                if((year%4 == 0 && year%100 == 0 && year%400 == 0) || (year%4==0 && year%100!=0))
-                    result = 29;
-                else
-                    result = 28;
-                break;
-            default:
-                result = 31;
-        }
-        return result;
-    }
-    private void calculateTheDayRepetition(Task task, String endDayTv, int repeatEveryNumber, String periodName,
-                                           boolean [] daysOfWeek){
-
-        Calendar startDay = DateUtils.stringToCalendarCompleteDate(task.getStart());
-        startDay.set(Calendar.HOUR_OF_DAY, 0);
-        startDay.set(Calendar.MINUTE,0);
-        long dayDuration = 60*60*24*1000;
-        Log.d(TAG, "calculateTheDayRepetition: ");
-        Calendar endDay = Calendar.getInstance();
-        endDay.setTime(DateUtils.parseLastDay(endDayTv));
-        endDay.set(Calendar.HOUR_OF_DAY,0);
-        endDay.set(Calendar.MINUTE,0);
-        endDay.setTimeInMillis(endDay.getTimeInMillis()+dayDuration);
-
-        Log.d(TAG, "createRepeatedPeriodText: endDay --> " +
-                "day = "+endDay.get(Calendar.DAY_OF_MONTH)+
-                "month ="+endDay.get(Calendar.MONTH)+
-                "year = "+endDay.get(Calendar.YEAR)+
-                "hour = "+endDay.get(Calendar.HOUR_OF_DAY)+
-                "minutes = "+endDay.get(Calendar.MINUTE));
-
-
-        Log.d(TAG, "createRepeatedPeriodText: AFTER ADDED ONE DAY endDay --> " +
-                "day = "+endDay.get(Calendar.DAY_OF_MONTH)+
-                "month ="+endDay.get(Calendar.MONTH)+
-                "year = "+endDay.get(Calendar.YEAR)+
-                "hour = "+endDay.get(Calendar.HOUR_OF_DAY)+
-                "minutes = "+endDay.get(Calendar.MINUTE));
-
-
-//        List<Task> tasks = new ArrayList<>();
-//
-//        switch (periodName){
-//            case "day":
-//            case "days":
-//                long difference = endDay.getTimeInMillis() - startDay.getTimeInMillis();
-//                int numberDaysOfPeriod = (int) (difference / dayDuration);
-//                int daysWithoutEvent = repeatEveryNumber -1;
-//                tasks.addAll(calculateTasksForEveryDay(numberDaysOfPeriod,repeatEveryNumber,
-//                        repeatEveryNumber-1,task,startDay.getTimeInMillis()));
-//                break;
-//            case "week":
-//            case "weeks":
-//                int [] daysSelected = calculateDaySelected(daysOfWeek);
-//                int occurence = (int) (endDay.getTimeInMillis() - startDay.getTimeInMillis()) + 1;
-//                for(int i = 0; i<daysSelected.length; i++){
-//                    int dow = DateUtils.longToCalendarCompleteDate(Long.parseLong(task.getStart())).get(Calendar.DAY_OF_WEEK);
-//                    tasks.addAll(calculateTasksForWeekDays(daysSelected,i,dow,occurence,startDay.getTimeInMillis(),
-//                            endDay.getTimeInMillis(),task));
-//                }
-//                break;
-//            case "month":
-//            case "months":
-//
-//
-//
-//                break;
-//            case "year":
-//            case "years":
-//                break;
-//
+    private DayOfWeek[] daysOfWeekFromLocale() {
+        DayOfWeek firstDayOfWeek = WeekFields.of(Locale.getDefault()).getFirstDayOfWeek();
+        DayOfWeek[] daysOfWeek1 = DayOfWeek.values();
+        // TODO ordinare per settimana, GG
+//        // Order `daysOfWeek` array so that firstDayOfWeek is at index 0.
+//        if (firstDayOfWeek != DayOfWeek.MONDAY) {
+//            val rhs = daysOfWeek1.sliceArray(firstDayOfWeek.ordinal.daysOfWeek1.indices.last)
+//            val lhs = daysOfWeek1.sliceArray(0 until firstDayOfWeek.ordinal)
+//            daysOfWeek1 = rhs + lhs;
 //        }
-
-
-
-
+        return daysOfWeek1;
     }
-
-
-    private List<Task> calculateTasksForEveryDay(int numberDaysOfPeriod, int repeatEveryNumber,int daysWithoutEvent ,
-                                                 Task task, long startDay ){
-//        List<Task> tasks = new ArrayList<>();
-//        if(numberDaysOfPeriod > repeatEveryNumber){
-//            int occurence = numberDaysOfPeriod % repeatEveryNumber !=0 ? numberDaysOfPeriod/repeatEveryNumber +1 :
-//                    numberDaysOfPeriod/repeatEveryNumber;
-//
-//
-//            for(int i =0; i<occurence; i++){
-//
-//                String startDate = i==0 ? task.getStart() :
-//                        String.valueOf(Long.parseLong(task.getStart()) + (daysWithoutEvent * dayDuration * i));
-//                String endDate;
-//
-//                if(!task.isAllDay())
-//                    endDate = i==0 ? task.getEnd() :
-//                            String.valueOf(Long.parseLong(task.getEnd()) + (daysWithoutEvent * dayDuration * i));
-//                else
-//                    endDate = i==0 ? String.valueOf(startDay+ dayDuration -1) :
-//                            String.valueOf( startDay+ dayDuration -1 + (daysWithoutEvent * dayDuration * i));
-//
-//                Task newTask = new Task(task.getId(),task.getTitle(),task.getEmail(),task.isAllDay(),task.getGroupId(),
-//                        task.getPriority(),task.getCategory(),task.getStatus(),startDate,endDate,
-//                        task.getLongitude(),task.getLatitude(),task.getDescription(),task.getColor());
-//
-//                Log.d(TAG, "createRepeatedPeriodText: TASK START DATE = "+DateUtils.stringToCalendarCompleteDate(newTask.getStart()).getTime());
-//                Log.d(TAG, "createRepeatedPeriodText: TASK END DATE = "+DateUtils.stringToCalendarCompleteDate(newTask.getEnd()).getTime());
-//                tasks.add(newTask);
-//            }
-//        }
-//        return tasks;
-        return null;
-    }
-
-    private Calendar createCalendar(int day, int month, int year,int hour,int minute){
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR,year);
-        c.set(Calendar.MONTH,month);
-        c.set(Calendar.DAY_OF_MONTH,day);
-        c.set(Calendar.HOUR_OF_DAY,hour);
-        c.set(Calendar.MINUTE,minute);
-
-        return c;
-    }
-    private Calendar copyCalendar(Calendar calendar){
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR,calendar.get(Calendar.YEAR));
-        c.set(Calendar.MONTH,calendar.get(Calendar.MONTH));
-        c.set(Calendar.DAY_OF_MONTH,calendar.get(Calendar.DAY_OF_MONTH));
-        c.set(Calendar.HOUR_OF_DAY,calendar.get(Calendar.HOUR_OF_DAY));
-        c.set(Calendar.MINUTE,calendar.get(Calendar.MINUTE));
-        return c;
-    }
-
-    private List<Task> pippo(Task task, int [] daysOfWeek, Calendar endDayCal, String groupId){
-        List<Task> tasks = new ArrayList<>();
-        Calendar sCal;
-        Calendar eCal;
-        Calendar fCal    = DateUtils.longToCalendarCompleteDate(Long.parseLong(task.getStart()));
-
-        // set time of task
-        if(!task.isAllDay()){
-            sCal =  copyCalendar(fCal);
-            eCal = DateUtils.longToCalendarCompleteDate(Long.parseLong(task.getEnd()));
-        }else {
-            sCal = copyCalendar(fCal);
-            eCal = copyCalendar(fCal);
-            modifyCalendar(sCal,-1,-1,-1,0,0);
-            modifyCalendar(eCal,-1,-1,-1,23,59);
-        }
-
-        modifyCalendar(fCal,1,-1,-1,0,0);
-
-
-        //first day of calendar
-        int fDay   = fCal.get(Calendar.DAY_OF_MONTH);
-        int fMonth = fCal.get(Calendar.MONTH);
-        int fYear  = fCal.get(Calendar.YEAR);
-        int fLastDOM = getLastDayOfMonth(fMonth,fYear);
-
-        //start date task
-        int sDay;
-        int sMonth = fMonth;
-        int sYear = fYear;
-
-        //data for calculate difference between 2 days of week
-        int idDOWTask= 0;
-        int gap  = calculateGapBetweenDOWs(daysOfWeek[idDOWTask],fCal);
-
-        //calculate cycles
-        int endDayMonth = endDayCal.get(Calendar.MONTH);
-        int totalMonths = fYear == endDayMonth ? endDayMonth - fMonth : endDayMonth + Calendar.DECEMBER - fMonth;
-        int totalCycles= calculateTotalCiclesOfSumMonths(totalMonths,fMonth,fYear);
-
-        long taskTime = sCal.getTimeInMillis();
-        long endTime = endDayCal.getTimeInMillis();
-        for(int i = 0; i<=totalCycles; i++){
-
-            Log.d(TAG, "pippo: i="+i+" fCal="+fCal.getTime());
-            if(fDay+gap>fLastDOM){
-                sDay  =  fDay + gap - fLastDOM;
-                sYear = fMonth + 1 > Calendar.DECEMBER ? fYear+1 : fYear;
-                sMonth = fMonth + 1 > Calendar.DECEMBER ? fMonth + 1 - Calendar.UNDECIMBER : fMonth+1;
-            }
-            else
-                sDay = fDay + gap;
-            modifyCalendar(sCal,sDay,sMonth,sYear,-1,-1);
-            modifyCalendar(eCal,sDay,sMonth,sYear,-1,-1);
-            Log.d(TAG, "pippo: gap="+gap+" SET sCal="+sCal.getTime());
-            if(sCal.get(Calendar.DAY_OF_WEEK) == daysOfWeek[idDOWTask]
-                    && sCal.getTimeInMillis() >= taskTime
-                    && sCal.getTimeInMillis() <= endTime) {
-                tasks.add(createNewTask(task, groupId, sCal.getTimeInMillis(), eCal.getTimeInMillis()));
-                Log.d(TAG, "pippo: ADDED sCal=" + sCal.getTime());
-                //looking for other days of week
-                if(idDOWTask+1 < daysOfWeek.length) {
-                    idDOWTask++;
-                    gap = calculateGapBetweenDOWs(daysOfWeek[idDOWTask],fCal);
-                    i--; //for every Day Selected in this Week
-
-                    continue;
-                }
-            }
-
-            Log.d(TAG, "pippo: FINISH THE DAY IN THIS WEEK!!!");
-
-            if(fDay + 7 > fLastDOM){
-                fDay += 7 -fLastDOM;
-                fYear += fMonth+1 > Calendar.DECEMBER ? 1 : 0;
-                fMonth += fMonth+1 > Calendar.DECEMBER ? 1 - Calendar.UNDECIMBER : 1;
-                fLastDOM = getLastDayOfMonth(fMonth,fYear);
-            }
-            else
-                fDay += 7;
-            modifyCalendar(fCal,fDay,fMonth,fYear,-1,-1);
-            idDOWTask = 0;
-            gap = calculateGapBetweenDOWs(daysOfWeek[idDOWTask],fCal);
-            Log.d(TAG, "pippo: UPDATE FIRST FOR NEXT SEARCH");
-            Log.d(TAG, "pippo: fCal="+fCal.getTime());
-        }
-        for (Task t: tasks)
-            Log.d(TAG, "pippo: t="+DateUtils.longToCalendarCompleteDate(Long.parseLong(t.getStart())).getTime());
-        return tasks;
-    }
-
-    private int calculateGapBetweenDOWs(int tDOW, Calendar fCal){
-        return tDOW - fCal.get(Calendar.DAY_OF_WEEK);
-    }
-    private int calculateTotalCiclesOfSumMonths(int totalMonths,int startMonth, int startYear){
-        int result = 0;
-        for(int i= 0; i<=totalMonths; i++){
-            int year =  startMonth+i > Calendar.DECEMBER ? startYear+1: startYear;
-            int month = startMonth+i > Calendar.DECEMBER ? startMonth+i - Calendar.UNDECIMBER : startMonth+i;
-            result += getLastDayOfMonth(month,year);
-        }
-        return result;
-    }
-
-
 
 }

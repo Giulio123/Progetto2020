@@ -34,8 +34,11 @@ public interface TaskDao {
     @Query("SELECT COUNT(id) FROM task")
     int getSizeTableTasks();
 
-    @Query("SELECT * FROM task WHERE start BETWEEN :startRange AND :endRange ORDER BY start ASC")
+    @Query("SELECT * FROM task WHERE CAST(start AS LONG) BETWEEN :startRange AND :endRange ORDER BY start ASC")
     List<Task> getUpcomingTasks(long startRange, long endRange);
+
+    @Query("SELECT * FROM task ORDER BY start ASC")
+    List<Task> getTasksByMonth();
 
     @Query("DELETE FROM task WHERE id = :taskId")
     void deleteTask(int taskId);
@@ -58,6 +61,7 @@ public interface TaskDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTask(Task task);
+
 //
 //    /**
 //     * Select a task by id.

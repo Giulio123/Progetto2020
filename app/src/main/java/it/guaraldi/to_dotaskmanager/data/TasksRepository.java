@@ -4,14 +4,15 @@ package it.guaraldi.to_dotaskmanager.data;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
+
+import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.inject.Inject;
 
+import javax.inject.Inject;
 
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 
@@ -254,6 +255,16 @@ public class TasksRepository implements TasksDataSource {
     @Override
     public void getUpcommingTasks(long startDate, long endDate, DBCallBackTasks callBackTasks) {
         mLocalDataSource.getUpcommingTasks(startDate, endDate, new DBCallBackTasks() {
+            @Override
+            public void success(List<Task> tasks) {
+                callBackTasks.success(tasks);
+            }
+        });
+    }
+
+    @Override
+    public void getTaskByMonth(LocalDate date, DBCallBackTasks callBackTasks) {
+        mLocalDataSource.getTaskByMonth(date, new DBCallBackTasks() {
             @Override
             public void success(List<Task> tasks) {
                 callBackTasks.success(tasks);

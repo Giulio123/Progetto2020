@@ -1,5 +1,8 @@
 package it.guaraldi.to_dotaskmanager.data;
 import com.google.android.gms.tasks.Task;
+
+import org.threeten.bp.LocalDate;
+
 import java.util.List;
 
 
@@ -31,6 +34,9 @@ public interface TasksDataSource {
     void deleteTask(int taskId, DBCallback callback);
     void deleteAllTasks(DBCallback callback);
     void getTaskById(int taskId, DBCallBackTasks callBackTasks);
+
+    void getTaskByMonth(LocalDate date, DBCallBackTasks callBackTasks);
+
     void getAllTaskByCategory(String category,DBCallBackTasks callBackTasks);
     //TODO RISTRUTTARE STA MERDA
     void reauthentication(String email, String password, FirebaseCallback callback);

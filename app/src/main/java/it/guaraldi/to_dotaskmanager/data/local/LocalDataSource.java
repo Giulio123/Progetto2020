@@ -1,11 +1,11 @@
 package it.guaraldi.to_dotaskmanager.data.local;
 
+import org.threeten.bp.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-
 
 import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.local.dao.TaskDao;
@@ -148,6 +148,20 @@ public class LocalDataSource implements TasksDataSource {
                         callBackTaks.success(tasks);
                     }
                 });
+            }
+        });
+    }
+
+    @Override
+    public void getTaskByMonth(LocalDate date, DBCallBackTasks callBackTasks) {
+        mAppExecutors.diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                LocalDate last = date.withDayOfMonth(
+                        date.getMonth().length(date.isLeapYear()));
+                LocalDate first = date.withDayOfMonth(1);
+                List<Task> tasks = mTaskDao.getUpcomingTasks(first.toEpochDay(), last.toEpochDay());
+                mAppExecutors.mainThread().execute(() -> callBackTasks.success(tasks));
             }
         });
     }

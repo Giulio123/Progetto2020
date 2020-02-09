@@ -6,8 +6,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
-import java.util.UUID;
-
 /**
  * Created by sugfdo on 09/06/19.
  */
@@ -61,6 +59,7 @@ public class Task {
 
     @ColumnInfo(name = "description")
     private final String description;
+
     @NonNull
     @ColumnInfo(name = "color")
     private final String color;
