@@ -2,11 +2,11 @@ package it.guaraldi.to_dotaskmanager.ui.calendar;
 
 import android.os.Bundle;
 
-import com.google.firebase.auth.FirebaseUser;
+import org.threeten.bp.LocalDate;
 
-import java.util.Calendar;
-import java.util.concurrent.Executor;
+import java.util.List;
 
+import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.ui.base.IBaseView;
 
 
@@ -18,7 +18,8 @@ public interface CalendarContract {
         void showTaskDetails(Bundle taskData);
         void showEditTaskView(Bundle taskData);
         void reloadActivity();
-        void updateData();
+
+        void updateData(List<Task> tasks);
         void updateSession(String displayName, String email, int result);
     }
 
@@ -26,7 +27,8 @@ public interface CalendarContract {
         void addNewTask();
         void checkSession();
         void signOut();
-        void loadTasksOfMonth();
+
+        void loadTasksOfMonth(LocalDate date);
         void loadTasksForNewVisibleDays();
         void openTaskDetails(Bundle taskData);
         void openEditTask(Bundle taskData);
@@ -34,8 +36,11 @@ public interface CalendarContract {
         void getSizeTableTasks();
         void getLastId();
         void printAllTasks();
-        void getMonthTasks(Calendar currentdate);
+
+        void updateMonthTask(LocalDate currentdate);
         void deleteAllTasks();
+
+        List<Task> getTasksOfDay(LocalDate date);
     }
 
 }

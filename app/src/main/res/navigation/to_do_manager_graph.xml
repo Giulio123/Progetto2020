@@ -9,7 +9,7 @@
         android:id="@+id/calendarFragment"
         android:name="it.guaraldi.to_dotaskmanager.ui.calendar.CalendarFragment"
         android:label="calendar_fragment"
-        tools:layout="@layout/content_calendar_fragment" >
+        tools:layout="@layout/calendar_content_fragment">
         <action
             android:id="@+id/action_calendarFragment_to_editTaskFragment"
             app:destination="@id/editTaskFragment" />

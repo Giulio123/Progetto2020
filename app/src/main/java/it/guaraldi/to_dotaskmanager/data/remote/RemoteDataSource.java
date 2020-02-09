@@ -11,6 +11,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import org.threeten.bp.LocalDate;
+
 import javax.inject.Inject;
 
 
@@ -181,6 +183,11 @@ public class RemoteDataSource implements TasksDataSource {
 
     @Override
     public void getTaskById(int taskId, DBCallBackTasks callBackTasks) {
+
+    }
+
+    @Override
+    public void getTaskByMonth(LocalDate date, DBCallBackTasks callBackTasks) {
 
     }
 
