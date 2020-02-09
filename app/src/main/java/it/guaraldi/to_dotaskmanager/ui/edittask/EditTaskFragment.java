@@ -1,10 +1,14 @@
 package it.guaraldi.to_dotaskmanager.ui.edittask;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,12 +21,14 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.Navigation;
 
 import android.os.Parcelable;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -309,21 +315,31 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
         Log.d(TAG, "showCalendarView: tasktitle="+taskTitle+" duration="+duration+" id="+id+" startdate="+startDate+" priority="+priority);
         //TODO LANCIA ALLARME NOTIFICA
 
-        Bundle notificationData = new Bundle();
-        notificationData.putString(Const.CONTENT_TITLE,taskTitle);
-        notificationData.putString(Const.CONTENT_TEXT,duration);
-        notificationData.putInt(Const.NOTIFICATION_ID,id);
-        notificationData.putLong(Const.START_DATE,startDate);
-        notificationData.putInt(Const.PRIORITY,priority);
-        Intent broadcastIntent = new Intent(getContext(), NotificationReceiver.class);
-        broadcastIntent.setAction(Const.ADD_NOTIFICATION);
-        broadcastIntent.putExtra("NOTIFICATION_DATA",notificationData);
-        Log.d(TAG, "NOTIFICATION DATA CONTENT ");
-        for(String key: notificationData.keySet())
-            Log.d(TAG, key+" = "+notificationData.get(key));
-        getActivity().sendBroadcast(broadcastIntent);
-
+        Notification notification = getNotification("Content text");
+        scheduleNotification(notification, 10*1000);
         Navigation.findNavController(getView()).navigate(R.id.action_editTaskFragment_to_calendarFragment);
+    }
+
+    private void scheduleNotification(Notification notification, int delay) {
+
+        Intent notificationIntent = new Intent(getActivity(), NotificationReceiver.class);
+        notificationIntent.putExtra(Const.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(Const.NOTIFICATION, notification);
+
+        Log.d(TAG, "scheduleNotification: id="+notificationIntent.getIntExtra(Const.NOTIFICATION_ID,0)+" PARCEBLE="+notificationIntent.getParcelableExtra(Const.NOTIFICATION));
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Notification getNotification(String content) {
+        return new NotificationCompat.Builder(getActivity(),"minPriorityChannel")
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle("Scheduled Notification")
+                .setContentText(content)
+                .setPriority(NotificationCompat.PRIORITY_MIN).build();
     }
 
     @Override

@@ -53,9 +53,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
         }
     }
 
-
-
-
     @Override
     public void openRegistration() {
         mView.showRegistrationView();
