@@ -19,8 +19,10 @@ public class CalendarDayView extends ViewContainer {
     TextView textView;
     CalendarDay day; // Will be set when this container is bound.
     ConstraintLayout layout;
-    View flightTopView;
-    View flightBottomView;
+    View taskBar1;
+    View taskBar2;
+    View taskBar3;
+    View taskBar4;
     CalendarView calendarView;
 
     public CalendarDayView(View view, CalendarView calendarView, CalendarFragment calendarFragment) {
@@ -45,8 +47,35 @@ public class CalendarDayView extends ViewContainer {
         // calendarView = view.findViewById(R.id.calendarView);
         textView = view.findViewById(R.id.calendarDayText);
         layout = view.findViewById(R.id.exFiveDayLayout);
-        flightTopView = view.findViewById(R.id.exFiveDayFlightTop);
-        flightBottomView = view.findViewById(R.id.exFiveDayFlightBottom);
+        taskBar1 = view.findViewById(R.id.taskBar1);
+        taskBar2 = view.findViewById(R.id.taskBar2);
+        taskBar3 = view.findViewById(R.id.taskBar3);
+        taskBar4 = view.findViewById(R.id.taskBar4);
     }
 
+    public void unsetBar() {
+        taskBar1.setBackground(null);
+        taskBar2.setBackground(null);
+        taskBar3.setBackground(null);
+        taskBar4.setBackground(null);
+    }
+
+    public View getBar(int i) {
+        View toReturn = taskBar1;
+        switch (i) {
+            case 0:
+                toReturn = taskBar1;
+                break;
+            case 1:
+                toReturn = taskBar2;
+                break;
+            case 2:
+                toReturn = taskBar3;
+                break;
+            case 3:
+                toReturn = taskBar4;
+                break;
+        }
+        return toReturn;
+    }
 }

@@ -7,6 +7,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.format.DateTimeFormatter;
+import org.threeten.bp.format.FormatStyle;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +29,20 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textDate;
+        private final View textColorBox;
+        private final TextView textCategory;
+        private final View view;
         // each data item is just a string in this case
         public TextView textView;
 
         public MyViewHolder(View v) {
             super(v);
-            textView = v.findViewById(R.id.itemFlightDateText);
+            view = v;
+            textView = v.findViewById(R.id.taskDescr);
+            textColorBox = v.findViewById(R.id.taskColorBox);
+            textCategory = v.findViewById(R.id.taskCategory);
+            textDate = v.findViewById(R.id.taskDate);
         }
     }
 
@@ -51,10 +63,15 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.textView.setText(tasks.get(position).getDescription());
+        Task task = tasks.get(position);
 
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
+        LocalDate start = LocalDate.ofEpochDay(Long.parseLong(task.getStart()) / 1000);
+        LocalDate end = LocalDate.ofEpochDay(Long.parseLong(task.getEnd()) / 1000);
+        holder.textView.setText(task.getTitle());
+        holder.textDate.setText(start.format(dateTimeFormatter) + " - " + end.format(dateTimeFormatter));
+        holder.textCategory.setText(task.getCategory());
+        holder.textColorBox.setBackgroundColor(holder.view.getContext().getColor(Integer.parseInt(task.getColor())));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -64,35 +81,3 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
     }
 }
 
-
-//class Example5FlightsAdapter : RecyclerView.Adapter<Example5FlightsAdapter.Example5FlightsViewHolder>() {
-//
-//        val flights = mutableListOf<Flight>()
-//
-//private val formatter = DateTimeFormatter.ofPattern("EEE'\n'dd MMM'\n'HH:mm")
-//
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Example5FlightsViewHolder {
-//        return Example5FlightsViewHolder(parent.inflate(R.layout.example_5_event_item_view))
-//        }
-//
-//        override fun onBindViewHolder(viewHolder: Example5FlightsViewHolder, position: Int) {
-//        viewHolder.bind(flights[position])
-//        }
-//
-//        override fun getItemCount(): Int = flights.size
-//
-//        inner class Example5FlightsViewHolder(override val containerView: View) :
-//        RecyclerView.ViewHolder(containerView), LayoutContainer {
-//
-//        fun bind(flight: Flight) {
-//        itemFlightDateText.text = formatter.format(flight.time)
-//        itemFlightDateText.setBackgroundColor(itemView.context.getColorCompat(flight.color))
-//
-//        itemDepartureAirportCodeText.text = flight.departure.code
-//        itemDepartureAirportCityText.text = flight.departure.city
-//
-//        itemDestinationAirportCodeText.text = flight.destination.code
-//        itemDestinationAirportCityText.text = flight.destination.city
-//        }
-//        }
-//        }

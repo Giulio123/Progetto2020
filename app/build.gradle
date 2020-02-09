@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -90,5 +92,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.0.1'
     //Authentication
     implementation 'com.google.firebase:firebase-auth:18.1.0'
+    compile "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+}
+repositories {
+    mavenCentral()
 }

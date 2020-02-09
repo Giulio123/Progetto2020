@@ -135,6 +135,7 @@ public class CalendarPresenter extends BasePresenter<CalendarContract.View> impl
             @Override
             public void success(List<Task> tasksMonth) {
                 tasks = tasksMonth;
+                mView.updateData(tasks);
             }
         });
     }

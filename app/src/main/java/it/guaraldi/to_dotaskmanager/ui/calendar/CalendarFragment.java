@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,6 +54,8 @@ import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.notification.Const;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
 import it.guaraldi.to_dotaskmanager.utils.DateUtils;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 import static java.util.Locale.ENGLISH;
 
@@ -96,10 +99,10 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         }
 
 
+        CalendarFragment.selectedDate = LocalDate.now();
         mPresenter.attachView(this);
         mPresenter.checkSession();
-        mPresenter.updateMonthTask(LocalDate.now());
-
+        mPresenter.updateMonthTask(selectedDate);
         mToolbar = getActivity().findViewById(R.id.toolbar_calendar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);
@@ -181,8 +184,10 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     @Override
     public void updateData(List<Task> tasks) {
         this.tasks = tasks;
-
-
+        calendarView.notifyCalendarChanged();
+        if (CalendarFragment.selectedDate != null) {
+            calendarView.notifyDateChanged(CalendarFragment.selectedDate);
+        }
     }
 
     private void updateAdapter() {
@@ -224,6 +229,9 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
         tasksAdapter = new TasksAdapter(new ArrayList<>());
         recyclerView.setAdapter(tasksAdapter);
 
@@ -253,12 +261,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
                 ConstraintLayout layout = container.layout;
                 textView.setText(Integer.toString(day.getDate().getDayOfMonth()));
 
-                View flightTopView = container.flightTopView;
-                View flightBottomView = container.flightBottomView;
-
-                flightTopView.setBackground(null);
-                flightBottomView.setBackground(null);
-
+                container.unsetBar();
                 if (day.getOwner() == DayOwner.THIS_MONTH) {
                     textView.setTextColor(getResources().getColor(R.color.example_5_text_grey));
                     if (CalendarFragment.selectedDate == day.getDate()) {
@@ -268,16 +271,14 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
                     }
                     // TODO settare colore in base al colore del task
                     List<Task> localTasks = mPresenter.getTasksOfDay(day.getDate());
-                    if (localTasks != null && localTasks.size() > 0) {
-                        flightTopView.setBackgroundColor(getContext().getColor(Integer.parseInt(localTasks.get(0).getColor())));
-                        //  flightBottomView.setBackgroundColor(.context.getColorCompat(flights[1].color));
+                    for (int i = 0; i < localTasks.size(); i++) {
+                        container.getBar(i).setBackgroundColor(getContext().getColor(Integer.parseInt(localTasks.get(i).getColor())));
+                        if (i == 3) break;
                     }
                 } else {
                     textView.setTextColor(getResources().getColor(R.color.example_5_text_grey_light));
                     layout.setBackground(null);
                 }
-
-                //calendarDayView.textView.setText(Integer.toString(calendarDay.getDate().getDayOfMonth()));
             }
         });
 
@@ -305,17 +306,23 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
             }
 
         });
-//        calendarView.setMonthScrollListener(month -> {
-//            String title = monthTitleFormatter.format(month.yearMonth) + "" + month.yearMonth.year;
-//            // TODO Settare titolo mese
-//            // exFiveMonthYearText.text = title
-//
-//            if (CalendarFragment.selectedDate != null ) {
-//                CalendarFragment.selectedDate = null;
-//                calendarView.notifyDateChanged(CalendarFragment.selectedDate);
-//            }
-//        }
-//        });
+        calendarView.setMonthScrollListener(new Function1<CalendarMonth, Unit>() {
+            @Override
+            public Unit invoke(CalendarMonth month) {
+                mPresenter.updateMonthTask(LocalDate.of(month.getYear(), month.getMonth(), 1));
+                //TODO Cambiare il numero del mese nel nome
+                String title = month.getMonth() + " " + month.getYear();
+                exFiveMonthYearText.setText(title);
+
+                // Setto sempre il primo giorno del mese
+                CalendarFragment.selectedDate = LocalDate.of(month.getYear(), month.getMonth(), 1);
+                calendarView.notifyDateChanged(CalendarFragment.selectedDate);
+                updateAdapterForDate(CalendarFragment.selectedDate);
+
+                //Unit.INSTANCE; unit = new Unit();
+                return Unit.INSTANCE;
+            }
+        });
 
         exFiveNextMonthImage.setOnClickListener(view -> {
             if (calendarView.findFirstVisibleMonth() != null) {

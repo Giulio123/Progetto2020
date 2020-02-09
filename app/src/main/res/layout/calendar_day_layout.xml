@@ -24,19 +24,35 @@
             tools:text="24" />
 
         <View
-            android:id="@+id/exFiveDayFlightTop"
+            android:id="@+id/taskBar1"
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="35dp"
             android:background="@color/blue_grey_700" />
 
         <View
-            android:id="@+id/exFiveDayFlightBottom"
+            android:id="@+id/taskBar2"
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="25dp"
+            android:background="@color/brown_700" />
+
+        <View
+            android:id="@+id/taskBar3"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="15dp"
+            android:background="@color/brown_700" />
+
+        <View
+            android:id="@+id/taskBar4"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="5dp"
             android:background="@color/brown_700" />
 
     </FrameLayout>
