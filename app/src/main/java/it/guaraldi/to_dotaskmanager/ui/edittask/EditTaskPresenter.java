@@ -50,6 +50,7 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
 
          Calendar startCal = Calendar.getInstance();
          Calendar endCal = Calendar.getInstance();
+         
 
          if(allDay) {
             startCal.setTimeInMillis(DateUtils.stringToLongAllDayDate(dateStart));
