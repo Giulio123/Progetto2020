@@ -98,7 +98,8 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
             if(mIntent.getAction() == Const.POSTPONE_TASK_F)
                 mPresenter.openEditTask(mIntent.getBundleExtra(Const.TASK_DATA));
         }
-
+        if(getArguments()!=null)
+            mPresenter.openEditTask(getArguments());
 
         CalendarFragment.selectedDate = LocalDate.now();
         mPresenter.attachView(this);
@@ -118,8 +119,6 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     public void onResume() {
         super.onResume();
         mPresenter.getSizeTableTasks();
-        mPresenter.getLastId();
-        mPresenter.printAllTasks();
     }
 
     @Override
@@ -150,9 +149,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
             Navigation.findNavController(getView()).navigate(R.id.action_calendarFragment_to_graphicFragment);
         if(id == R.id.action_taskDetails){
             Log.d(TAG, "onOptionsItemSelected: ");
-            Bundle data = new Bundle();
-            data.putInt(ActivityUtils.ID_TASK,0);
-            Navigation.findNavController(getView()).navigate(R.id.action_calendarFragment_to_taskDetailsFragment);
+            mPresenter.getLastId();
         }
         return true;
     }

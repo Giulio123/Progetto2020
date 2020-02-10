@@ -61,6 +61,7 @@ import it.guaraldi.to_dotaskmanager.ui.edittask.dialog.DialogPeriodsFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.dialog.DialogShowCategoryFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedInstanceState;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child.ChildPersonalizedInstanceState;
+import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 import it.guaraldi.to_dotaskmanager.utils.DateUtils;
 
 import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.CATEGORY;
@@ -392,7 +393,22 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
 
     @Override
     public void updateViewTaskData(String title, String email, int priority, String category, String start, String end, String description, String color) {
-        Log.d(TAG, "updateViewTaskData: DEVI IMPLEMENTARE UPDATE");
+        this.title.setText(title);
+        this.email.setText(email);
+        this.priorityS.setSelection(priority-1);
+        this.category.setText(category);
+        this.startDate.setText(DateUtils.longToStringCalendarDate(Long.parseLong(start)));
+        this.endDate.setText(DateUtils.longToStringCalendarDate(Long.parseLong(end)));
+        this.startTime.setText(DateUtils.longToStringTimeDate(Long.parseLong(start)));
+        this.endTime.setText(DateUtils.longToStringTimeDate(Long.parseLong(end)));
+        this.descriptionTv.setText(description);
+//        this.colorS.setSelection(Integer.parseInt(color));
+        this.title.setEnabled(false);
+        this.email.setEnabled(false);
+        this.priorityS.setEnabled(false);
+        this.category.setEnabled(false);
+        this.descriptionTv.setEnabled(false);
+        this.colorS.setEnabled(false);
     }
 
 ////////////////////
@@ -467,6 +483,9 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
                         startTime.getText().toString(),endDate.getText().toString(),endTime.getText().toString(),
                         repeatTv.getText().toString(),isReplay,
                         descriptionTv.getText().toString(),getColorId(colorS.getSelectedItemPosition()),personalizedState,childPersonalizedState);
+                break;
+            case R.id.cancel_edit_task:
+                Navigation.findNavController(getView()).navigate(R.id.action_editTaskFragment_to_calendarFragment);
                 break;
             case R.id.starDateText:
                 if (!dialogIsVisible)
@@ -614,6 +633,9 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
                         repetition > 1 ? getResources().getStringArray(R.array.period_type) :
                                 getResources().getStringArray(R.array.period_type_singular),
                         getString(R.string.it_repeats_every_period),Integer.parseInt(childPersonalizedState.getNumberOccorenceEdit()),childPersonalizedState.getEndDayTv());
+            }
+            if(data.containsKey(ActivityUtils.ID_TASK)){
+                mPresenter.getTaskById(data.getInt(ActivityUtils.ID_TASK));
             }
         }
         else {

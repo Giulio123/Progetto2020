@@ -16,6 +16,7 @@ import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.data.User;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
+import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 
 public class CalendarPresenter extends BasePresenter<CalendarContract.View> implements CalendarContract.Presenter {
     private final TasksRepository mRepository;
@@ -107,8 +108,12 @@ public class CalendarPresenter extends BasePresenter<CalendarContract.View> impl
             @Override
             public void success(int lastId) {
                 Log.d(TAG, "success: lastId ="+lastId);
+                Bundle data = new Bundle();
+                data.putInt(ActivityUtils.ID_TASK,lastId);
+                mView.showTaskDetails(data);
             }
         });
+
     }
 
     @Override

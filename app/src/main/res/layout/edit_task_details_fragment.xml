@@ -21,13 +21,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="18dp"
-    android:layout_marginStart="18dp"
+    android:layout_marginStart="36dp"
     android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/color_image"
-        android:layout_marginTop="6dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="18dp"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:src="@color/red" />
@@ -36,36 +36,12 @@
         android:id="@+id/data_task_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/title_taskD"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="Titolo"/>
-        <TextView
-            android:id="@+id/duration_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="tttt"/>
-        <TextView
-            android:id="@+id/type_ripetition_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="tttt"/>
-        <TextView
-            android:id="@+id/category_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="tttt"/>
-        <TextView
-            android:id="@+id/priority_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="tttt"/>
-        <TextView
-            android:id="@+id/status_task"
+        <ListView
+            android:id="@+id/list_details"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:dividerHeight="0dp"
+            android:divider="@null" />
     </LinearLayout>
 </LinearLayout>
 </LinearLayout>
