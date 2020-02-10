@@ -66,7 +66,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Task task = tasks.get(position);
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDa4teTime(FormatStyle.SHORT);
         LocalDateTime start = LocalDateTime.ofEpochSecond(Long.parseLong(task.getStart()) / 1000,0, ZoneOffset.UTC);
         LocalDateTime end = LocalDateTime.ofEpochSecond(Long.parseLong(task.getEnd()) / 1000, 0, ZoneOffset.UTC);
         holder.textView.setText(task.getTitle());

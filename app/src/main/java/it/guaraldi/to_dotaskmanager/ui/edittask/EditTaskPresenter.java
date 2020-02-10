@@ -191,7 +191,7 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
 
             @Override
             public void failure() {
-                Log.d(TAG, "failure: BOOOOOO");
+                Log.d(TAG, "failure");
             }
         });
         Log.d(TAG, "saveNewTask:"+task.toString());

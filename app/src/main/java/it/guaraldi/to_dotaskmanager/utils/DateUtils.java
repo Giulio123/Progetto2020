@@ -182,7 +182,6 @@ public class DateUtils {
     public static String longToStringCompleteInformationDate(long date){
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(date);
-        Log.d("MADONNA PUTTANA TROIA", "longToStringCompleteInformationDate:"+c.getTime());
         Calendar d = Calendar.getInstance();
         d.set(Calendar.YEAR,c.get(Calendar.YEAR));
         d.set(Calendar.MONTH,c.get(Calendar.MONTH));

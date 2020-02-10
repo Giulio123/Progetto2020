@@ -131,7 +131,6 @@ public class PersonalizedFragment extends BaseFragment implements PersonalizedCo
 
     @Override
     public void onResume() {
-        Log.d(TAG, "PORCODIO: size"+getFragmentManager().getPrimaryNavigationFragment());
         super.onResume();
     }
 
