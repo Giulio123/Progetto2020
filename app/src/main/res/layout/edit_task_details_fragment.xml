@@ -3,11 +3,69 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/titleFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="TaskDetails"
-        android:textSize="30sp"/>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_view_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/example_5_toolbar_color"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_view_details"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="18dp"
+    android:layout_marginStart="18dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/color_image"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="8dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@color/red" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/data_task_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/title_taskD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Titolo"/>
+        <TextView
+            android:id="@+id/duration_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tttt"/>
+        <TextView
+            android:id="@+id/type_ripetition_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tttt"/>
+        <TextView
+            android:id="@+id/category_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tttt"/>
+        <TextView
+            android:id="@+id/priority_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tttt"/>
+        <TextView
+            android:id="@+id/status_task"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>
 </LinearLayout>

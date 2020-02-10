@@ -24,6 +24,7 @@ public interface TasksDataSource {
     void getCurrentUser(LoadSessionCallback callback);
     void signOut(SignOutCallback callback);
 
+
     //DB DATA
     void createTask(it.guaraldi.to_dotaskmanager.data.local.entities.Task newTask, DBCallback callback);
     void changeTaskStatus(String status,int taskId,DBCallback callback);

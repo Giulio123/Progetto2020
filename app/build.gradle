@@ -92,7 +92,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.0.1'
     //Authentication
     implementation 'com.google.firebase:firebase-auth:18.1.0'
-    compile "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }

@@ -1,7 +1,9 @@
 package it.guaraldi.to_dotaskmanager.taskdetails;
 
 import android.nfc.Tag;
+import android.util.Log;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,6 +12,7 @@ import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
+import it.guaraldi.to_dotaskmanager.utils.DateUtils;
 
 public class TaskDetailsPresenter extends BasePresenter<TaskDetailsContract.View> implements TaskDetailsContract.Presenter {
 
@@ -27,11 +30,51 @@ public class TaskDetailsPresenter extends BasePresenter<TaskDetailsContract.View
             @Override
             public void success(List<Task> tasks) {
                 if(tasks.size() == 1) {
+                    String duration = null;
                     Task task = tasks.get(0);
-                    mView.updateViewTaskData(task.getTitle(),task.getEmail(), task.getPriority(),task.getCategory(),task.getStart(),task.getEnd(),
+                    Calendar c= Calendar.getInstance();
+                    Calendar ts = Calendar.getInstance();
+                    ts.setTimeInMillis(Long.parseLong(task.getStart()));
+                    c.setTimeInMillis(System.currentTimeMillis());
+                    if(c.get(Calendar.DAY_OF_MONTH)==ts.get(Calendar.DAY_OF_MONTH)
+                            && c.get(Calendar.MONTH)==ts.get(Calendar.MONTH)
+                            && c.get(Calendar.YEAR)==ts.get(Calendar.YEAR)){
+                        c.setTimeInMillis(Long.parseLong(task.getEnd()));
+                        duration = "Today: "+ts.get(Calendar.HOUR_OF_DAY)+":"+ts.get(Calendar.MINUTE)+"-"
+                                +c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE);
+                    }
+                    else
+                        duration = DateUtils.longtoStringDayMonth(Long.parseLong(task.getStart()))+" "
+                                +DateUtils.longToStringTimeDate(Long.parseLong(task.getStart()))+"-"+
+                                DateUtils.longToStringTimeDate(Long.parseLong(task.getEnd()));
+
+
+                    mView.updateViewTaskData(task.getTitle(),duration, task.getPriority(),task.getCategory(),
                             task.getDescription(),task.getColor(),task.getStatus());
                 }
             }
         });
+    }
+
+    @Override
+    public void deleteTaskById(int taskId) {
+        Log.d(TAG, "deleteTaskById: ");
+        mRepository.deleteTask(taskId, new TasksDataSource.DBCallback() {
+            @Override
+            public void success() {
+                Log.d(TAG, "success: ");
+                mView.showCalendarView();
+            }
+
+            @Override
+            public void failure() {
+                Log.d(TAG, "failure: ");
+            }
+        });
+    }
+
+    @Override
+    public void modifyTask() {
+        mView.showEditTaskView();
     }
 }

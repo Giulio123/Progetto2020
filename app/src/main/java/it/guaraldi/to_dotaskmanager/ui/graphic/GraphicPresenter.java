@@ -23,6 +23,21 @@ public class GraphicPresenter extends BasePresenter<GraphicContract.View> implem
 
 
     @Override
+    public void getAllCategories() {
+        mRepository.loadCategories(new TasksDataSource.LoadCategories() {
+            @Override
+            public void success(List<String> categories) {
+                mView.updateSpinner(categories);
+            }
+
+            @Override
+            public void failure(String error) {
+                Log.d(TAG, "failure: error="+error);
+            }
+        });
+    }
+
+    @Override
     public void getAllTasksByCategory(String category) {
         Log.d(TAG, "getAllTasksByCategory: ");
         mRepository.getAllTaskByCategory(category,new TasksDataSource.DBCallBackTasks() {

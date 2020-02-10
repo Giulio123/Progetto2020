@@ -6,4 +6,10 @@
         android:orderInCategory="100"
         android:title="@string/graphic_of_tasks"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_taskDetails"
+        android:orderInCategory="100"
+        android:title="taskdetails"
+        app:showAsAction="never" />
 </menu>

@@ -123,30 +123,6 @@ public class PersonalizedFragment extends BaseFragment implements PersonalizedCo
         setUp(getArguments());
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-//        inflater.inflate(R.menu.personalized_toolbar_menu,menu);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.home:
-//                Log.d(TAG, "onOptionsItemSelected: "+item.getTitle());
-//                break;
-//            case R.id.cancel_button:
-//                Log.d(TAG, "onOptionsItemSelected: "+item.getTitle());
-//                break;
-//            case R.id.save_button:
-//                Log.d(TAG, "onOptionsItemSelected: "+item.getTitle());
-//                break;
-//                default:
-//                    Log.d(TAG, "onOptionsItemSelected: "+item.getItemId());
-//                    break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public void onStart() {

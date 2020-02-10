@@ -10,6 +10,7 @@ import java.util.Locale;
 
 public class DateUtils {
     private static final String TAG = "DateUtils";
+    public static final SimpleDateFormat formatDayMonthText = new SimpleDateFormat("EEE MMM d",Locale.getDefault());
     public static final SimpleDateFormat formatDataText = new SimpleDateFormat("E dd MMM yyyy", Locale.getDefault());
     public static final SimpleDateFormat formatTimeText = new SimpleDateFormat("HH:mm",Locale.getDefault());
     public static final SimpleDateFormat formatDateLastDayText = new SimpleDateFormat("d MMM  yyyy",Locale.getDefault());
@@ -21,6 +22,10 @@ public class DateUtils {
     public static String formatDate(Date date){
         String res = formatDataText.format(date);
         res = res.substring(0,1).toUpperCase().concat(res.substring(1));
+        return res;
+    }
+    public static String formatDateDayMonth(Date date){
+        String res = formatDayMonthText.format(date);
         return res;
     }
 
@@ -150,12 +155,22 @@ public class DateUtils {
         return formatCompleteInformationDate(c.getTime());
     }
 
+    public static String longtoStringDayMonth(long date){
+        Calendar c =Calendar.getInstance();
+        c.setTimeInMillis(date);
+        return formatDayMonthText.format(c.getTime());
+    }
     public static Calendar longToCalendarCompleteDate(long date){
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(date);
         return c;
     }
 
+    public static String longToStringTimeDate(long date){
+        Calendar c =Calendar.getInstance();
+        c.setTimeInMillis(date);
+        return formatTimeText.format(c.getTime());
+    }
 
     public static String longToStringCompleteInformationDate(long date){
         Calendar c = Calendar.getInstance();

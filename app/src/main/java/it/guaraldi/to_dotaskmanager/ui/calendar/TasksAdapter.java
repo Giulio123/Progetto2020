@@ -18,9 +18,7 @@ import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder> {
-
     private List<Task> tasks;
-
     public void setDataset(List<Task> tasks) {
         this.tasks = tasks;
     }
@@ -72,6 +70,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
         holder.textDate.setText(start.format(dateTimeFormatter) + " - " + end.format(dateTimeFormatter));
         holder.textCategory.setText(task.getCategory());
         holder.textColorBox.setBackgroundColor(holder.view.getContext().getColor(Integer.parseInt(task.getColor())));
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
