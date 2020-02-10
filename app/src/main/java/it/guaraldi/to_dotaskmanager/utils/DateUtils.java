@@ -10,18 +10,29 @@ import java.util.Locale;
 
 public class DateUtils {
     private static final String TAG = "DateUtils";
-    public static final SimpleDateFormat formatDataText = new SimpleDateFormat("E dd MMM yyyy", Locale.getDefault());
-    public static final SimpleDateFormat formatTimeText = new SimpleDateFormat("HH:mm",Locale.getDefault());
-    public static final SimpleDateFormat formatDateLastDayText = new SimpleDateFormat("d MMM  yyyy",Locale.getDefault());
-    public static final SimpleDateFormat formatDateRepeatedField = new SimpleDateFormat("MMM d",Locale.getDefault());
-    public static final SimpleDateFormat formatCompleteInformation = new SimpleDateFormat("EEE d MMM HH:mm:ss yyyy",Locale.getDefault());
-    public static final SimpleDateFormat formatMillisec = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS",Locale.getDefault());
-    public static final SimpleDateFormat formatMonthTitle = new SimpleDateFormat("MMMM", /*Locale.getDefault()*/Locale.getDefault());
+    public static final SimpleDateFormat formatDayMonthText = new SimpleDateFormat("EEE MMM d",Locale.ENGLISH);
+    public static final SimpleDateFormat formatDataText = new SimpleDateFormat("E dd MMM yyyy", Locale.ENGLISH);
+    public static final SimpleDateFormat formatTimeText = new SimpleDateFormat("HH:mm",Locale.ENGLISH);
+    public static final SimpleDateFormat formatDateLastDayText = new SimpleDateFormat("d MMM  yyyy",Locale.ENGLISH);
+    public static final SimpleDateFormat formatDateRepeatedField = new SimpleDateFormat("MMM d",Locale.ENGLISH);
+    public static final SimpleDateFormat formatCompleteInformation = new SimpleDateFormat("EEE d MMM HH:mm:ss yyyy",Locale.ENGLISH);
+    public static final SimpleDateFormat formatMillisec = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS",Locale.ENGLISH);
+    public static final SimpleDateFormat formatMonthTitle = new SimpleDateFormat("MMMM", /*Locale.ENGLISH*/Locale.ENGLISH);
 
     public static String formatDate(Date date){
         String res = formatDataText.format(date);
         res = res.substring(0,1).toUpperCase().concat(res.substring(1));
         return res;
+    }
+    public static String formatDateDayMonth(Date date){
+        String res = formatDayMonthText.format(date);
+        return res;
+    }
+
+    public static String longToStringCalendarDate(long date){
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(date);
+        return formatDate(c.getTime());
     }
 
 
@@ -150,12 +161,23 @@ public class DateUtils {
         return formatCompleteInformationDate(c.getTime());
     }
 
+    public static String longtoStringDayMonth(long date){
+        Calendar c =Calendar.getInstance();
+        c.setTimeInMillis(date);
+        return formatDayMonthText.format(c.getTime());
+    }
     public static Calendar longToCalendarCompleteDate(long date){
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(date);
         return c;
     }
 
+
+    public static String longToStringTimeDate(long date){
+        Calendar c =Calendar.getInstance();
+        c.setTimeInMillis(date);
+        return formatTimeText.format(c.getTime());
+    }
 
     public static String longToStringCompleteInformationDate(long date){
         Calendar c = Calendar.getInstance();

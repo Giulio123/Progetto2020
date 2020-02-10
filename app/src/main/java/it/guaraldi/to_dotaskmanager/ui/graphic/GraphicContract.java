@@ -9,9 +9,11 @@ public interface GraphicContract {
 
     interface View extends IBaseView{
         void getTasksForGraphic(String category, int []totalTask, int []taskPending , int [] taskComplete);
+        void updateSpinner(List<String> categories);
     }
 
     interface Presenter{
+        void getAllCategories();
         void getAllTasksByCategory(String category);
     }
 }

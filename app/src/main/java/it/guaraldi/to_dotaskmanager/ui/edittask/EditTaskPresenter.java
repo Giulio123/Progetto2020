@@ -458,6 +458,8 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
             public void success(List<Task> tasks) {
                 Task task = tasks.get(0);
                 Log.d(TAG, "success: ");
+                Log.d(TAG, "success: color="+task.getColor());
+
                 mView.updateViewTaskData(task.getTitle(),task.getEmail(), task.getPriority(),task.getCategory(),task.getStart(),task.getEnd(),
                         task.getDescription(),task.getColor());
             }

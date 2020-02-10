@@ -62,4 +62,5 @@ public class ActivityUtils {
     public static final int WRONG_EMAIL_OR_PASSWORD = 10;
 
 
+    public static final String ID_TASK = "ID_TASK";
 }

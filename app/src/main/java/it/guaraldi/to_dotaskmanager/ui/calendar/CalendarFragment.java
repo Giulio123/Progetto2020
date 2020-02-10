@@ -53,6 +53,7 @@ import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.notification.Const;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
+import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 import it.guaraldi.to_dotaskmanager.utils.DateUtils;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -97,7 +98,8 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
             if(mIntent.getAction() == Const.POSTPONE_TASK_F)
                 mPresenter.openEditTask(mIntent.getBundleExtra(Const.TASK_DATA));
         }
-
+        if(getArguments()!=null)
+            mPresenter.openEditTask(getArguments());
 
         CalendarFragment.selectedDate = LocalDate.now();
         mPresenter.attachView(this);
@@ -117,8 +119,6 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     public void onResume() {
         super.onResume();
         mPresenter.getSizeTableTasks();
-        mPresenter.getLastId();
-        mPresenter.printAllTasks();
     }
 
     @Override
@@ -147,6 +147,10 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         int id = item.getItemId();
         if (id == R.id.action_graphic_fragment)
             Navigation.findNavController(getView()).navigate(R.id.action_calendarFragment_to_graphicFragment);
+        if(id == R.id.action_taskDetails){
+            Log.d(TAG, "onOptionsItemSelected: ");
+            mPresenter.getLastId();
+        }
         return true;
     }
 

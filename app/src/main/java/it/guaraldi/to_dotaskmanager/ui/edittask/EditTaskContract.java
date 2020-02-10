@@ -8,7 +8,8 @@ import it.guaraldi.to_dotaskmanager.ui.base.IBaseView;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedInstanceState;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child.ChildPersonalizedInstanceState;
 
-public interface EditTaskContract {
+public interface
+EditTaskContract {
     interface View extends IBaseView {
         void dataError(String error);
         void updateDate(String newDate, boolean validDate);

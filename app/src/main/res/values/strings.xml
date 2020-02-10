@@ -199,7 +199,7 @@
     <string name="save_btn">Save</string>
     <string name="email_chooser">Select Email</string>
     <string name="graphic_of_tasks">Graphic of Tasks</string>
-    <string name="dash">-</string>
+    <string name="dash">cavallino</string>
 
     <string name="viewGithub">View on GitHub</string>
     <string name="actionSave">Save to Gallery</string>
@@ -215,6 +215,10 @@
     <string name="actionTogglePinch">Toggle PinchZoom</string>
     <string name="actionToggleAutoScale">Toggle Auto Scale</string>
     <string name="calendar_of_task">Show calendar</string>
+    <string name="pending">pending:</string>
+    <string name="complete">complete:</string>
+    <string name="delete_task">Delete task</string>
+    <string name="modify_task">Modify task</string>
 
 
 </resources>

@@ -87,6 +87,9 @@
         <action
             android:id="@+id/action_taskDetailsFragment_to_calendarFragment"
             app:destination="@id/calendarFragment" />
+        <action
+            android:id="@+id/action_taskDetailsFragment_to_editTaskFragment"
+            app:destination="@id/editTaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/graphicFragment"
