@@ -31,4 +31,6 @@ public class Const {
     public static final String TASK_ID = "TASK_ID";
     // TODO: test String, to be removed when notification system will work
     public static final String NOTIFICATION = "NOTIFICATION";
+    public static final String TASK_TITLE = "TITLE";
+    public static final String TASK_DESCR = "DESC";
 }

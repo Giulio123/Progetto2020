@@ -6,12 +6,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
+import java.io.Serializable;
+
 /**
  * Created by sugfdo on 09/06/19.
  */
 
 @Entity(tableName = "task", primaryKeys = {"id","email"})
-public class Task {
+public class Task implements Serializable {
 
     @NonNull
     @ColumnInfo(name = "id")

@@ -18,12 +18,13 @@ public interface EditTaskContract {
         void updateCategory(int position, String category, int typeUpdate);
         void updatePosition();
         void errorSaveTask();
-        void showCalendarView(String titleTask, String duration, int id, long startDate, int priority);
         void showPersonalizedView(EditInstanceState state);
         void loadAllCategories(List<String> categories);
         void loadCategory(String category);
         void updateViewTaskData( String title, String email, int priority, String category, String start, String end,
                                  String description, String color);
+        void showCalendarView(Task task, long alarmTime);
+
     }
     interface Presenter {
         void saveNewTask(String title, String email, boolean allDay, int priority, String category, String dateStart,

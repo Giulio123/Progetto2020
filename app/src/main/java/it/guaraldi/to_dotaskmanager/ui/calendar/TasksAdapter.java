@@ -1,5 +1,6 @@
 package it.guaraldi.to_dotaskmanager.ui.calendar;
 
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.ZoneOffset;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.FormatStyle;
 
@@ -65,9 +68,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Task task = tasks.get(position);
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL);
-        LocalDate start = LocalDate.ofEpochDay(Long.parseLong(task.getStart()) / 1000);
-        LocalDate end = LocalDate.ofEpochDay(Long.parseLong(task.getEnd()) / 1000);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+        LocalDateTime start = LocalDateTime.ofEpochSecond(Long.parseLong(task.getStart()) / 1000,0, ZoneOffset.UTC);
+        LocalDateTime end = LocalDateTime.ofEpochSecond(Long.parseLong(task.getEnd()) / 1000, 0, ZoneOffset.UTC);
         holder.textView.setText(task.getTitle());
         holder.textDate.setText(start.format(dateTimeFormatter) + " - " + end.format(dateTimeFormatter));
         holder.textCategory.setText(task.getCategory());

@@ -1,6 +1,12 @@
 package it.guaraldi.to_dotaskmanager.ui.edittask;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import java.text.ParseException;
 
@@ -19,6 +25,8 @@ import it.guaraldi.to_dotaskmanager.data.TasksDataSource;
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.data.User;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
+import it.guaraldi.to_dotaskmanager.notification.Const;
+import it.guaraldi.to_dotaskmanager.notification.NotificationReceiver;
 import it.guaraldi.to_dotaskmanager.ui.base.BasePresenter;
 import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedInstanceState;
@@ -178,7 +186,7 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
                 String duration = "Today at "+timeStart+" to "+timeEnd;
                 updateCurrentTaskId();
 
-                mView.showCalendarView(task.getTitle(),duration,mCurrentTaskId,Long.parseLong(start),priority);
+                mView.showCalendarView(task, Long.parseLong(start));
             }
 
             @Override
@@ -188,6 +196,8 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
         });
         Log.d(TAG, "saveNewTask:"+task.toString());
     }
+
+
 
     @Override
     public void onChangeTimePicker(int hour, int minute, String [] checkDate, boolean isStartTime) {

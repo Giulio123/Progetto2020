@@ -14,6 +14,8 @@ import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,9 +55,11 @@ import javax.inject.Inject;
 import it.guaraldi.to_dotaskmanager.NewsApp;
 import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.adapter.SpinnerAdapter;
+import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 import it.guaraldi.to_dotaskmanager.notification.Const;
 import it.guaraldi.to_dotaskmanager.notification.NotificationReceiver;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
+import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
 import it.guaraldi.to_dotaskmanager.ui.edittask.dialog.DialogNewCategoryFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.dialog.DialogPeriodsFragment;
 import it.guaraldi.to_dotaskmanager.ui.edittask.dialog.DialogShowCategoryFragment;
@@ -63,6 +67,10 @@ import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.PersonalizedInstanc
 import it.guaraldi.to_dotaskmanager.ui.edittask.personalized.child.ChildPersonalizedInstanceState;
 import it.guaraldi.to_dotaskmanager.utils.DateUtils;
 
+import static it.guaraldi.to_dotaskmanager.notification.Const.NOTIFICATION_DATA;
+import static it.guaraldi.to_dotaskmanager.notification.Const.PRIORITY;
+import static it.guaraldi.to_dotaskmanager.notification.Const.TASK_DATA;
+import static it.guaraldi.to_dotaskmanager.notification.Const.TASK_ID;
 import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.CATEGORY;
 import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.CATEGORY_PARAMS;
 import static it.guaraldi.to_dotaskmanager.utils.ActivityUtils.CHILD_PERSONALIZED_STATE;
@@ -309,55 +317,31 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
     }
 
     @Override
-    public void showCalendarView(String taskTitle, String duration, int id, long startDate, int priority) {
-        Log.d(TAG, "[debug] showCalendarView: tasktitle='"+taskTitle+"' duration="+duration+" id="+id+" startdate="+startDate+" priority="+priority);
-
-        String channelId = "";
-        int notificationPriority = -1;
-        switch (priority) {
-            case 1:
-                channelId = "minPriorityChannel";
-                notificationPriority = NotificationCompat.PRIORITY_MIN;
-                break;
-            case 2:
-                channelId = "lowPriorityChannel";
-                notificationPriority = NotificationCompat.PRIORITY_LOW;
-                break;
-            case 3:
-                channelId = "defaultPriorityChannel";
-                notificationPriority = NotificationCompat.PRIORITY_DEFAULT;
-                break;
-            case 4:
-                channelId = "highPriorityChannel";
-                notificationPriority = NotificationCompat.PRIORITY_HIGH;
-                break;
-        }
-
-        Notification notification = getNotification(taskTitle, duration, channelId, notificationPriority);
-        scheduleNotification(notification, id, startDate);
+    public void showCalendarView(Task task, long alarmTime) {
+        createAlarm(task, alarmTime);
+       // Notification notification = getNotification(taskTitle, duration, channelId, notificationPriority, id);
+//        scheduleNotification(notification, id, startDate);
         Navigation.findNavController(getView()).navigate(R.id.action_editTaskFragment_to_calendarFragment);
     }
 
-    private void scheduleNotification(Notification notification, int id, long futureInMillis) {
-        Log.d(TAG, "[debug] scheduleNotification: dateStart = " + DateUtils.longToStringCompleteInformationDate(futureInMillis));
+    private void createAlarm(Task task, long alarmTime) {
+        /* set alarm */
+        Log.d(TAG, "[debug] scheduleNotification: notification will appear at = " + DateUtils.longToStringCompleteInformationDate(alarmTime));
         Intent notificationIntent = new Intent(getActivity(), NotificationReceiver.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt(TASK_ID, Integer.parseInt(task.getId()));
+        bundle.putString(Const.TASK_DESCR, task.getDescription());
+        bundle.putString(Const.TASK_TITLE, task.getTitle());
+        bundle.putInt(PRIORITY, task.getPriority());
+        bundle.putLong(Const.START_DATE, alarmTime);
+        notificationIntent.putExtras(bundle);
         notificationIntent.setAction(Const.ADD_NOTIFICATION);
-        notificationIntent.putExtra(Const.NOTIFICATION_ID, id);
-        notificationIntent.putExtra(Const.NOTIFICATION, notification);
 
-        Log.d(TAG, "[debug] scheduleNotification: id="+notificationIntent.getIntExtra(Const.NOTIFICATION_ID,0)+" PARCEBLE="+notificationIntent.getParcelableExtra(Const.NOTIFICATION));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Log.d(TAG, "[debug] scheduleNotification: id="+notificationIntent.getIntExtra(Const.NOTIFICATION_ID,0)+" PARCEBLE=" + bundle.getSerializable(TASK_DATA));
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT);
 
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, futureInMillis, pendingIntent);
-    }
-
-    private Notification getNotification(String title, String content, String channelId, int priority) {
-        return new NotificationCompat.Builder(getActivity(),channelId)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentTitle("Scheduled Notification")
-                .setContentText(content)
-                .setPriority(priority).build();
+        alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent);
     }
 
     @Override

@@ -22,15 +22,16 @@ import androidx.core.app.NotificationManagerCompat;
 import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
 
-public class NotificationIntentService extends Activity {
+public class NotificationIntentService extends Intent {
 
     public static final String TAG = "NotificationIntentS";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        scheduleNotification(getNotification("10 second delay"), 10000);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        Log.d(TAG, "Sono nel ServiceNotifications????");
+////        scheduleNotification(getNotification("10 second delay"), 10000);
+//    }
 
 //    private void scheduleNotification(Notification notification, int delay) {
 //
