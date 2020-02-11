@@ -219,6 +219,7 @@
     <string name="complete">complete:</string>
     <string name="delete_task">Delete task</string>
     <string name="modify_task">Modify task</string>
+    <string name="title_spinner_category">Category:</string>
 
 
 </resources>

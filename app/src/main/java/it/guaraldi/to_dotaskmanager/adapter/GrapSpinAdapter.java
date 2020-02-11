@@ -45,6 +45,6 @@ public class GrapSpinAdapter extends BaseAdapter {
         }
         final TextView categoryTV = (TextView)view.findViewById(R.id.item_spinner_graphic);
         categoryTV.setText(category);
-        return null;
+        return view;
     }
 }

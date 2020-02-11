@@ -33,9 +33,9 @@
         <GridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="50dp"
             android:layout_marginStart="29dp"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
@@ -45,7 +45,6 @@
             android:verticalSpacing="0dp"
             android:horizontalSpacing="0dp"
             android:stretchMode="spacingWidthUniform"
-            android:layout_above="@+id/spinnerGraphic"
             />
         <Spinner
             android:id="@+id/spinnerGraphic"
@@ -53,7 +52,23 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:gravity="start|end|bottom"
+            android:layout_marginStart="135dp"
             android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+            android:layout_height="50dp"
+            android:layout_marginBottom="0dp"
+            android:spinnerMode="dropdown"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="@string/title_spinner_category"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="start|end|bottom"
+            android:padding="9dp"
+            android:layout_marginStart="3dp"
+            android:foregroundGravity="center"
+            android:textSize="27sp"/>
     </RelativeLayout>
 </LinearLayout>
