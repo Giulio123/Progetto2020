@@ -57,6 +57,7 @@ public class TaskDetailsPresenter extends BasePresenter<TaskDetailsContract.View
                                 DateUtils.longToStringTimeDate(Long.parseLong(task.getEnd()));
                     }
                     List<String> taskDetails = new ArrayList<>();
+                    taskDetails.add(task.getColor());
                     taskDetails.add(task.getTitle());
                     taskDetails.add(duration);
                     taskDetails.add("Priority: "+String.valueOf(task.getPriority()));

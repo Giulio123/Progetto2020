@@ -1,6 +1,7 @@
 package it.guaraldi.to_dotaskmanager.ui.calendar;
 
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,10 @@ import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.data.local.entities.Task;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder> {
+    interface OnItemSelected{
+        void getTaskIdOfItemSelected(int taskId);
+    }
+    private OnItemSelected mListener;
     private List<Task> tasks;
     public void setDataset(List<Task> tasks) {
         this.tasks = tasks;
@@ -66,13 +71,19 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Task task = tasks.get(position);
 
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDa4teTime(FormatStyle.SHORT);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
         LocalDateTime start = LocalDateTime.ofEpochSecond(Long.parseLong(task.getStart()) / 1000,0, ZoneOffset.UTC);
         LocalDateTime end = LocalDateTime.ofEpochSecond(Long.parseLong(task.getEnd()) / 1000, 0, ZoneOffset.UTC);
         holder.textView.setText(task.getTitle());
         holder.textDate.setText(start.format(dateTimeFormatter) + " - " + end.format(dateTimeFormatter));
         holder.textCategory.setText(task.getCategory());
         holder.textColorBox.setBackgroundColor(holder.view.getContext().getColor(Integer.parseInt(task.getColor())));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.getTaskIdOfItemSelected(Integer.parseInt(tasks.get(position).getId()));
+            }
+        });
 
     }
 
@@ -80,6 +91,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.MyViewHolder
     @Override
     public int getItemCount() {
         return tasks.size();
+    }
+
+    public void setOnItemSelectedListener(OnItemSelected onItemSelectedListener){
+        this.mListener = onItemSelectedListener;
     }
 }
 

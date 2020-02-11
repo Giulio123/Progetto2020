@@ -61,7 +61,7 @@ import kotlin.jvm.functions.Function1;
 import static java.util.Locale.ENGLISH;
 
 
-public class CalendarFragment extends BaseFragment implements CalendarContract.View {
+public class CalendarFragment extends BaseFragment implements  CalendarContract.View, TasksAdapter.OnItemSelected {
 
     @Inject CalendarPresenter mPresenter;
     private static final String TAG = "CalendarFragment";
@@ -147,10 +147,6 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         int id = item.getItemId();
         if (id == R.id.action_graphic_fragment)
             Navigation.findNavController(getView()).navigate(R.id.action_calendarFragment_to_graphicFragment);
-        if(id == R.id.action_taskDetails){
-            Log.d(TAG, "onOptionsItemSelected: ");
-            mPresenter.getLastId();
-        }
         return true;
     }
 
@@ -237,7 +233,9 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         tasksAdapter = new TasksAdapter(new ArrayList<>());
+        tasksAdapter.setOnItemSelectedListener(this);
         recyclerView.setAdapter(tasksAdapter);
+
 
         calendarView = getActivity().findViewById(R.id.calendarView);
         ImageView exFiveNextMonthImage = getActivity().findViewById(R.id.exFiveNextMonthImage);
@@ -276,6 +274,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
                     // TODO settare colore in base al colore del task
                     List<Task> localTasks = mPresenter.getTasksOfDay(day.getDate());
                     for (int i = 0; i < localTasks.size(); i++) {
+                        Log.d(TAG, "bind: LOCALTASK COLOR="+localTasks.get(i).getColor());
                         container.getBar(i).setBackgroundColor(getContext().getColor(Integer.parseInt(localTasks.get(i).getColor())));
                         if (i == 3) break;
                     }
@@ -330,6 +329,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
 
         exFiveNextMonthImage.setOnClickListener(view -> {
             if (calendarView.findFirstVisibleMonth() != null) {
+                Log.d(TAG, "initCalendar: exFiveNextMonthImage");
                 YearMonth nextMonth = calendarView.findFirstVisibleMonth().getYearMonth().plusMonths(1);
                 calendarView.smoothScrollToMonth(nextMonth);
                 exFiveMonthYearText.setText(nextMonth.getMonth().getDisplayName(TextStyle.SHORT, ENGLISH) + " " + nextMonth.getYear());
@@ -339,6 +339,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
 
         exFivePreviousMonthImage.setOnClickListener(view -> {
             if (calendarView.findFirstVisibleMonth() != null) {
+                Log.d(TAG, "initCalendar:  exFivePreviousMonthImage");
                 YearMonth nextMonth = calendarView.findFirstVisibleMonth().getYearMonth().minusMonths(1);
                 calendarView.smoothScrollToMonth(nextMonth);
                 exFiveMonthYearText.setText(nextMonth.getMonth().getDisplayName(TextStyle.SHORT, ENGLISH) + " " + nextMonth.getYear());
@@ -393,4 +394,10 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         return daysOfWeek1;
     }
 
+    @Override
+    public void getTaskIdOfItemSelected(int taskId) {
+        Bundle data = new Bundle();
+        data.putInt(ActivityUtils.ID_TASK, taskId);
+        mPresenter.openTaskDetails(data);
+    }
 }

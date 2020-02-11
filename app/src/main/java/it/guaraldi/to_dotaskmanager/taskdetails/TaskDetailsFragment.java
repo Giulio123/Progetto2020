@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class TaskDetailsFragment extends BaseFragment implements TaskDetailsCont
     private Intent mIntent;
     private Toolbar mToolbar;
     private ListView mListDetails;
+    private ImageView mColorImage;
     private DetailsAdapter mDAdapter;
     private int mTaskId=-1;
 
@@ -97,6 +99,7 @@ public class TaskDetailsFragment extends BaseFragment implements TaskDetailsCont
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);
         mListDetails = getActivity().findViewById(R.id.list_details);
+        mColorImage = (ImageView) getActivity().findViewById(R.id.color_image);
     }
 
     @Override
@@ -131,6 +134,8 @@ public class TaskDetailsFragment extends BaseFragment implements TaskDetailsCont
 
     @Override
     public void updateViewTaskData(List<String> taskDetails) {
+        Log.d(TAG, "updateViewTaskData: color="+taskDetails.get(0));
+        mColorImage.setBackgroundColor(getContext().getColor(Integer.parseInt(taskDetails.remove(0))));
         mDAdapter = new DetailsAdapter(getActivity(),taskDetails);
         mListDetails.setAdapter(mDAdapter);
         Log.d(TAG, "updateViewTaskData: DEVI IMPLEMENTARE UPDATE description=");
