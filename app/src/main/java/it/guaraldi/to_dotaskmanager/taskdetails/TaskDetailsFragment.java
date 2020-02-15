@@ -28,6 +28,7 @@ import it.guaraldi.to_dotaskmanager.R;
 import it.guaraldi.to_dotaskmanager.adapter.DetailsAdapter;
 import it.guaraldi.to_dotaskmanager.notification.Const;
 import it.guaraldi.to_dotaskmanager.ui.base.BaseFragment;
+import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
 import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 
 public class TaskDetailsFragment extends BaseFragment implements TaskDetailsContract.View{
@@ -56,16 +57,15 @@ public class TaskDetailsFragment extends BaseFragment implements TaskDetailsCont
         super.onViewCreated(view, savedInstanceState);
         mPresenter.attachView(this);
         if((mIntent=getActivity().getIntent())!=null )
-            if(mIntent.getAction() == Const.DETAILS_TASK_F){
+            if(Const.DETAILS_TASK_F.equals(mIntent.getAction())||Const.STATUS_UPDATE.equals(mIntent.getAction())){
+                getActivity().setIntent(null);
                 Log.d(TAG, "onViewCreated: intentAction ="+mIntent.getAction());
-                mTaskId = mIntent.getBundleExtra(Const.TASK_DATA).getInt(Const.TASK_ID);
+                mTaskId = mIntent.getIntExtra(Const.NOTIFICATION_ID,-1);
                     mPresenter.getTaskById(mTaskId);
-                //TODO CREA VIEW + RIEMPI CAMPI
             }
         Log.d(TAG, "onViewCreated: ");
         initViews();
         setUp(getArguments());
-       
     }
 
     @Override
@@ -96,7 +96,6 @@ public class TaskDetailsFragment extends BaseFragment implements TaskDetailsCont
     protected void initViews() {
         Log.d(TAG, "initViews: ");
         mToolbar = getActivity().findViewById(R.id.toolbar_view_details);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);
         mListDetails = getActivity().findViewById(R.id.list_details);
         mColorImage = (ImageView) getActivity().findViewById(R.id.color_image);
@@ -140,6 +139,7 @@ public class TaskDetailsFragment extends BaseFragment implements TaskDetailsCont
         mListDetails.setAdapter(mDAdapter);
         Log.d(TAG, "updateViewTaskData: DEVI IMPLEMENTARE UPDATE description=");
     }
+
 
     @Override
     public void showCalendarView() {

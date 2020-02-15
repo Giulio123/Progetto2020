@@ -1,5 +1,7 @@
 package it.guaraldi.to_dotaskmanager.notification;
 
+import android.content.Intent;
+
 public class Const {
     //ACTION
 
@@ -29,8 +31,6 @@ public class Const {
     //task
     public static final String TASK_DATA = "TASK_DATA";
     public static final String TASK_ID = "TASK_ID";
-    // TODO: test String, to be removed when notification system will work
-    public static final String NOTIFICATION = "NOTIFICATION";
-    public static final String TASK_TITLE = "TITLE";
-    public static final String TASK_DESCR = "DESC";
+
+    public static final String STATUS_UPDATE = "STATUS_UPDATE";
 }

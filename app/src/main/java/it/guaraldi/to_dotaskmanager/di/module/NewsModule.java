@@ -2,8 +2,7 @@ package it.guaraldi.to_dotaskmanager.di.module;
 
 import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.di.scope.NewsScope;
-import it.guaraldi.to_dotaskmanager.notification.NotificationReceiver;
-import it.guaraldi.to_dotaskmanager.notification.NotificationReceiverPresenter;
+import it.guaraldi.to_dotaskmanager.notification.NotificationISPresenter;
 import it.guaraldi.to_dotaskmanager.taskdetails.TaskDetailsPresenter;
 import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarPresenter;
 import dagger.Module;
@@ -59,17 +58,18 @@ public class NewsModule {
     public TaskDetailsPresenter providesTaskDetailsPresenter(TasksRepository repository){
         return new TaskDetailsPresenter(repository);
     }
-
-    @Provides
-    @NewsScope
-    public NotificationReceiverPresenter providesNotificationReceiverPresenter(TasksRepository repository){
-        return new NotificationReceiverPresenter(repository);
-    }
-
+    
     @Provides
     @NewsScope
     public GraphicPresenter providesGraphicPresenter(TasksRepository repository) {
         return new GraphicPresenter(repository);
     }
+
+    @Provides
+    @NewsScope
+    public NotificationISPresenter providesNotificationISPresenter(TasksRepository repository){
+        return new NotificationISPresenter(repository);
+    }
+
 
 }

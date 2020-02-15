@@ -24,11 +24,11 @@ EditTaskContract {
         void loadCategory(String category);
         void updateViewTaskData( String title, String email, int priority, String category, String start, String end,
                                  String description, String color);
-        void showCalendarView(Task task, long alarmTime);
+        void showCalendarView(Task task, long alarmTime,String contentTXT);
 
     }
     interface Presenter {
-        void saveNewTask(String title, String email, boolean allDay, int priority, String category, String dateStart,
+        void saveNewTask(int id, String title, String email, boolean allDay, int priority, String category, String dateStart,
                          String timeStart, String dateEnd,String timeEnd,String reply,boolean isReply, String description, String color,
                          PersonalizedInstanceState personalized, ChildPersonalizedInstanceState childPersonalizedState);
         void onChangeDatePicker(int year, int month, int dayOfMonth, String [] checkDate, boolean isStartDate);

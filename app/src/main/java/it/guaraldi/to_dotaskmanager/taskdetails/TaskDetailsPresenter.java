@@ -27,6 +27,8 @@ public class TaskDetailsPresenter extends BasePresenter<TaskDetailsContract.View
         mRepository = repository;
     }
 
+
+
     @Override
     public void getTaskById(int taskId) {
         Log.d(TAG, "getTaskById: ");

@@ -34,10 +34,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
 
     @Override
     public void doLogin(String email, String password, String[] errors) {
-        int[] credentialStatus = validateUserData(new String[]{email, password});
-        if (!allCredentialsAreValid(credentialStatus))
-            mView.errorData(credentialStatus, null);
-        else {
             mRepository.authentication(email, password, new TasksDataSource.LoadSessionCallback() {
                 @Override
                 public void success(User user) {
@@ -50,7 +46,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                     Log.d(TAG, "failure: "+e.getMessage()+"code:"+e.getLocalizedMessage());
                 }
             });
-        }
     }
 
     @Override

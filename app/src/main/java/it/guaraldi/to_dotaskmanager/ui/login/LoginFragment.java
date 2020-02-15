@@ -120,6 +120,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
 
         switch (v.getId()){
             case R.id.login_btn:
+                Log.d(TAG, "onClick: ");
                 mPresenter.doLogin(emailInput.getText().toString(),pwdInput.getText().toString(),new String[]{getString(R.string.login_error_email),getString(R.string.login_error_password),getString(R.string.login_error_user_disabled)});
                 break;
             case R.id.sing_up_btn:

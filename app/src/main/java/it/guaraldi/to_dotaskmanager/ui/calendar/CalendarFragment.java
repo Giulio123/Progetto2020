@@ -85,6 +85,7 @@ public class CalendarFragment extends BaseFragment implements  CalendarContract.
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         NewsApp.getNewsComponent().inject(this);
         mPresenter.attachView(this);
+
         return inflater.inflate(R.layout.calendar_fragment, container, false);
     }
 
@@ -92,11 +93,11 @@ public class CalendarFragment extends BaseFragment implements  CalendarContract.
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if( (mIntent =(getActivity().getIntent())) != null){
-            Log.d(TAG, "onViewCreated: mIntentData ="+mIntent.getExtras());
-            if(mIntent.getAction() == Const.DETAILS_TASK_F)
-                mPresenter.openTaskDetails(mIntent.getBundleExtra(Const.TASK_DATA));
-            if(mIntent.getAction() == Const.POSTPONE_TASK_F)
-                mPresenter.openEditTask(mIntent.getBundleExtra(Const.TASK_DATA));
+            Log.d(TAG, "onViewCreated: action="+mIntent.getAction()+" mIntentData ="+mIntent.getExtras());
+            if(Const.DETAILS_TASK_F.equals(mIntent.getAction())||Const.STATUS_UPDATE.equals(mIntent.getAction()))
+                mPresenter.openTaskDetails(mIntent.getExtras());
+            if(mIntent.getAction().equals(Const.POSTPONE_TASK_F))
+                mPresenter.openEditTask(mIntent.getExtras());
         }
         if(getArguments()!=null)
             mPresenter.openEditTask(getArguments());

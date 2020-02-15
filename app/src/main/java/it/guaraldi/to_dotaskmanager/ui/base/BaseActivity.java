@@ -73,6 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         return null;
     }
 
+
     public final void setAccountAuthenticatorResult(Bundle result) {
         throw new RuntimeException("Stub!");
     }

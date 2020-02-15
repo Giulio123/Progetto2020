@@ -6,14 +6,17 @@ import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import it.guaraldi.to_dotaskmanager.di.component.AppComponent;
 import it.guaraldi.to_dotaskmanager.di.component.DaggerAppComponent;
+
 import it.guaraldi.to_dotaskmanager.di.component.DaggerNewsComponent;
 import it.guaraldi.to_dotaskmanager.di.component.NewsComponent;
 import it.guaraldi.to_dotaskmanager.di.module.AppModule;
 import it.guaraldi.to_dotaskmanager.di.module.NewsModule;
 
+
 public class NewsApp extends Application{
     private static NewsComponent mNewsComponent;
     private static AppComponent appComponent;
+
 
 
     @Override

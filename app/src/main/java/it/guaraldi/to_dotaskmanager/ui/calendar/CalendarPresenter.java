@@ -41,6 +41,7 @@ public class CalendarPresenter extends BasePresenter<CalendarContract.View> impl
 
     @Override
     public void checkSession() {
+
         mRepository.getCurrentUser(new TasksDataSource.LoadSessionCallback() {
             @Override
             public void success(User user) {

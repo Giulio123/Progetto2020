@@ -69,6 +69,7 @@ import it.guaraldi.to_dotaskmanager.utils.ActivityUtils;
 import it.guaraldi.to_dotaskmanager.utils.DateUtils;
 
 import static it.guaraldi.to_dotaskmanager.notification.Const.NOTIFICATION_DATA;
+import static it.guaraldi.to_dotaskmanager.notification.Const.NOTIFICATION_ID;
 import static it.guaraldi.to_dotaskmanager.notification.Const.PRIORITY;
 import static it.guaraldi.to_dotaskmanager.notification.Const.TASK_DATA;
 import static it.guaraldi.to_dotaskmanager.notification.Const.TASK_ID;
@@ -164,11 +165,10 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
         if((mIntent=getActivity().getIntent())!=null )
             if(mIntent.getAction() == Const.POSTPONE_TASK_F)
                 if(mIntent.getExtras() !=null){
-                    int taskId = mIntent.getBundleExtra(Const.TASK_DATA).getInt(Const.TASK_ID);
-                    int notificationId = mIntent.getBundleExtra(Const.NOTIFICATION_DATA).getInt(Const.NOTIFICATION_ID);
-                    NotificationManagerCompat.from(getContext()).cancel(notificationId);
+                    getActivity().setIntent(null);
+                    int taskId = mIntent.getIntExtra(NOTIFICATION_ID,-1);
+                    NotificationManagerCompat.from(getContext()).cancel(taskId);
                     mPresenter.getTaskById(taskId);
-                    //TODO BLOCCA CAMPI NON NECESSARI
                 }
 
 
@@ -318,21 +318,21 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
     }
 
     @Override
-    public void showCalendarView(Task task, long alarmTime) {
-        createAlarm(task, alarmTime);
+    public void showCalendarView(Task task, long alarmTime, String contentT) {
+        createAlarm(task, alarmTime, contentT);
        // Notification notification = getNotification(taskTitle, duration, channelId, notificationPriority, id);
 //        scheduleNotification(notification, id, startDate);
         Navigation.findNavController(getView()).navigate(R.id.action_editTaskFragment_to_calendarFragment);
     }
 
-    private void createAlarm(Task task, long alarmTime) {
+    private void createAlarm(Task task, long alarmTime, String contentT) {
         /* set alarm */
         Log.d(TAG, "[debug] scheduleNotification: notification will appear at = " + DateUtils.longToStringCompleteInformationDate(alarmTime));
         Intent notificationIntent = new Intent(getActivity(), NotificationReceiver.class);
         Bundle bundle = new Bundle();
-        bundle.putInt(TASK_ID, Integer.parseInt(task.getId()));
-        bundle.putString(Const.TASK_DESCR, task.getDescription());
-        bundle.putString(Const.TASK_TITLE, task.getTitle());
+        bundle.putInt(NOTIFICATION_ID, Integer.parseInt(task.getId()));
+        bundle.putString(Const.CONTENT_TEXT, contentT);
+        bundle.putString(Const.CONTENT_TITLE, task.getTitle());
         bundle.putInt(PRIORITY, task.getPriority());
         bundle.putLong(Const.START_DATE, alarmTime);
         notificationIntent.putExtras(bundle);
@@ -462,14 +462,26 @@ public class EditTaskFragment extends BaseFragment implements EditTaskContract.V
         switch (v.getId()) {
             case R.id.save_edit_task:
                 boolean isReplay = (repeatTv.getText().toString().equals(getString(R.string.dont_repeat)));
-                mPresenter.saveNewTask(title.getText().toString(),email.getText().toString(),aSwitchAllDay.isChecked(),
-                         Integer.parseInt((String)priorityS.getSelectedItem()),category.getText().toString(),startDate.getText().toString(),
+                if(mIntent!=null && mIntent.hasExtra(NOTIFICATION_ID))
+                mPresenter.saveNewTask(mIntent.getIntExtra(NOTIFICATION_ID,-1),title.getText().toString(),email
+                                .getText().toString(),aSwitchAllDay.isChecked(), Integer.parseInt((String)priorityS.getSelectedItem()),
+                        category.getText().toString(),startDate.getText().toString(),
                         startTime.getText().toString(),endDate.getText().toString(),endTime.getText().toString(),
                         repeatTv.getText().toString(),isReplay,
                         descriptionTv.getText().toString(),getColorId(colorS.getSelectedItemPosition()),personalizedState,childPersonalizedState);
+                else
+                    mPresenter.saveNewTask(-1,title.getText().toString(),email
+                                    .getText().toString(),aSwitchAllDay.isChecked(), Integer.parseInt((String)priorityS.getSelectedItem()),
+                            category.getText().toString(),startDate.getText().toString(),
+                            startTime.getText().toString(),endDate.getText().toString(),endTime.getText().toString(),
+                            repeatTv.getText().toString(),isReplay,
+                            descriptionTv.getText().toString(),getColorId(colorS.getSelectedItemPosition()),personalizedState,childPersonalizedState);
                 break;
             case R.id.cancel_edit_task:
-                Navigation.findNavController(getView()).navigate(R.id.action_editTaskFragment_to_calendarFragment);
+                if(Const.POSTPONE_TASK_F.equals(mIntent.getAction()))
+                    getActivity().startActivity(new Intent(getContext(),CalendarActivity.class));
+                else
+                    Navigation.findNavController(getView()).navigate(R.id.action_editTaskFragment_to_calendarFragment);
                 break;
             case R.id.starDateText:
                 if (!dialogIsVisible)

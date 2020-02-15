@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.storage.OnObbStateChangeListener;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -19,123 +20,122 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import javax.inject.Inject;
+
+import it.guaraldi.to_dotaskmanager.NewsApp;
 import it.guaraldi.to_dotaskmanager.R;
+import it.guaraldi.to_dotaskmanager.data.TasksRepository;
 import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarActivity;
 
-public class NotificationIntentService extends Intent {
+import static it.guaraldi.to_dotaskmanager.notification.Const.ADD_NOTIFICATION;
+import static it.guaraldi.to_dotaskmanager.notification.Const.COMPLETE;
+import static it.guaraldi.to_dotaskmanager.notification.Const.CONTENT_TEXT;
+import static it.guaraldi.to_dotaskmanager.notification.Const.CONTENT_TITLE;
+import static it.guaraldi.to_dotaskmanager.notification.Const.DETAILS_TASK_F;
+import static it.guaraldi.to_dotaskmanager.notification.Const.NOTIFICATION_DATA;
+import static it.guaraldi.to_dotaskmanager.notification.Const.NOTIFICATION_ID;
+import static it.guaraldi.to_dotaskmanager.notification.Const.ONGOING;
+import static it.guaraldi.to_dotaskmanager.notification.Const.POSTPONE;
+import static it.guaraldi.to_dotaskmanager.notification.Const.POSTPONE_TASK_F;
+import static it.guaraldi.to_dotaskmanager.notification.Const.PRIORITY;
+import static it.guaraldi.to_dotaskmanager.notification.Const.START_DATE;
+import static it.guaraldi.to_dotaskmanager.notification.Const.TASK_DATA;
+
+public class NotificationIntentService extends IntentService {
 
     public static final String TAG = "NotificationIntentS";
+    public int mId=0;
+    private Intent mIntent = null;
+    @Inject
+    protected NotificationISPresenter mPresenter;
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        Log.d(TAG, "Sono nel ServiceNotifications????");
-////        scheduleNotification(getNotification("10 second delay"), 10000);
-//    }
+    public NotificationIntentService() {
+        super("NotificationIntentService");
+    }
 
-//    private void scheduleNotification(Notification notification, int delay) {
-//
-//        Intent notificationIntent = new Intent(this, NotificationReceiver.class);
-//        notificationIntent.putExtra(Const.NOTIFICATION_ID, 1);
-//        notificationIntent.putExtra(Const.NOTIFICATION, notification);
-//
-//        Log.d(TAG, "scheduleNotification: id="+notificationIntent.getIntExtra(Const.NOTIFICATION_ID,0)+" PARCEBLE="+notificationIntent.getParcelableExtra(Const.NOTIFICATION));
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-//        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//        // TODO: RTC_WAKEUP?
-//        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-//    }
-//
-//    private Notification getNotification(String content) {
-//        Notification.Builder builder = new Notification.Builder(this);
-//        builder.setContentTitle("Scheduled Notification");
-//        builder.setContentText(content);
-//        return builder.build();
-//    }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        NewsApp.getNewsComponent().inject(this);
+    }
 
-//
-//    private NotificationCompat.Builder updateNotification(Bundle notificationData, String action){
-//        Log.d(TAG, "updateNotification: ");
-//
-//        PendingIntent taskDetailsIntent = showActivity(Const.DETAILS_TASK_F,notificationData);
-//
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,notificationData.getString(Const.NOTIFICATION_CHANNEL))
-//                .setSmallIcon(R.mipmap.ic_launcher_round)
-//                .setContentTitle(notificationData.getString(Const.CONTENT_TITLE))
-//                .setContentText(notificationData.getString(Const.CONTENT_TEXT))
-//                .setContentIntent(taskDetailsIntent)
-//                .setAutoCancel(true)
-//                .setPriority(notificationData.getInt(Const.NOTIFICATION_PRIORITY));
-//
-//        if(action == Const.POSTPONE){
-//            Log.d(TAG, "updateNotification: POSTPONE");
-//            PendingIntent ongoingAction = createAction(Const.ONGOING,notificationData);
-//            builder.addAction(0,"ONGOING",ongoingAction);
-//        }
-//        if(action == Const.ONGOING){
-//            Log.d(TAG, "updateNotification: ONGOING");
-//
-//            PendingIntent postponeAction = createAction(Const.POSTPONE,notificationData);
-//            PendingIntent completeAction = createAction(Const.COMPLETE,notificationData);
-//
-//            builder.addAction(0,"POSTPONE",postponeAction)
-//            .addAction(0,"COMPLETE",completeAction);
-//        }
-//        return builder;
-//    }
-//
-//    private NotificationCompat.Builder createNotification(Bundle notificationData){
-//
-//        Log.d(TAG, "createNotification: ");
-//
-//        PendingIntent taskDetailsIntent = showActivity(Const.DETAILS_TASK_F,notificationData);
-//        PendingIntent postponeAction = createAction(Const.POSTPONE,notificationData);
-//        PendingIntent ongoingAction = createAction(Const.ONGOING,notificationData);
-//
-//        return new NotificationCompat.Builder(this,notificationData.getString(Const.NOTIFICATION_CHANNEL))
-//                .setSmallIcon(R.mipmap.ic_launcher_round)
-//                .setContentTitle(notificationData.getString(Const.CONTENT_TITLE))
-//                .setContentText(notificationData.getString(Const.CONTENT_TEXT))
-//                .setContentIntent(taskDetailsIntent)
-//                .setAutoCancel(true)
-//                .setPriority(notificationData.getInt(Const.NOTIFICATION_PRIORITY))
-//                .addAction(0,"ONGOING",ongoingAction)
-//                .addAction(0,"POSTPONE",postponeAction);
-//    }
-//
-//    private PendingIntent showActivity(String actionName, Bundle notificationData){
-//
-//        Bundle taskData = new Bundle();
-//        taskData.putInt(Const.TASK_ID,notificationData.getInt(Const.NOTIFICATION_ID));
-//
-//        Intent intent = new Intent(this, CalendarActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        intent.setAction(actionName);
-//        intent.putExtra(Const.TASK_DATA,taskData);
-//        return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//    }
-//
-//    private PendingIntent createAction(String actionName,Bundle notificationData){
-//
-//        if(actionName == Const.POSTPONE){
-//            Intent intent = new Intent(this,CalendarActivity.class);
-//            intent.setAction(Const.POSTPONE_TASK_F);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            Bundle taskData = new Bundle();
-//            taskData.putInt(Const.TASK_ID,notificationData.getInt(Const.NOTIFICATION_ID));
-//            intent.putExtra(Const.TASK_DATA,taskData);
-//            intent.putExtra(Const.NOTIFICATION_DATA,notificationData);
-//            return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        }
-//        else {
-//            Intent intent = new Intent(actionName);
-//            intent.putExtra(Const.NOTIFICATION_DATA, notificationData);
-//            return PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        }
-//
-//    }
-//
 
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        if(intent!=null && intent.getAction()!=null) {
+            mIntent = intent;
+            NotificationManagerCompat nmc = NotificationManagerCompat.from(this);
+            switch (intent.getAction()) {
+                case ONGOING:
+                case ADD_NOTIFICATION:
+                    Log.d(TAG, "onHandleIntent: action = "+mIntent.getAction());
+                    PendingIntent postpone = createAction(POSTPONE, mIntent.getExtras(), this);
+                    PendingIntent secondAction = mIntent.getAction().equals(ONGOING) ?
+                            createAction(COMPLETE, mIntent.getExtras(), this) :
+                            createAction(ONGOING,mIntent.getExtras(),this);
+                    Notification n = createNotification(mIntent.getExtras(), this, postpone, secondAction);
+                    nmc.notify(mIntent.getIntExtra(NOTIFICATION_ID,-1),n);
+                    break;
+                case COMPLETE:
+                case POSTPONE:
+                    Log.d(TAG, "onHandleIntent: action = "+mIntent.getAction());
+                    int id = mIntent.getIntExtra(NOTIFICATION_ID,-1);
+                    nmc.cancel(id);
+                    break;
+                default:
+                    break;
+            }
+            if(COMPLETE.equals(intent.getAction()) || ONGOING.equals(intent.getAction()))
+                mPresenter.changeTaskStatus(intent.getAction(),mIntent.getIntExtra(NOTIFICATION_ID,-1));
+        }
+        stopSelf(mId);
+    }
+
+    private PendingIntent createAction(String actionName, Bundle bundle, Context context){
+        Intent intent = new Intent(context, NotificationReceiver.class);
+        intent.setAction(actionName);
+        intent.putExtras(bundle);
+        return PendingIntent.getBroadcast(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private Notification createNotification(Bundle bundle, Context context,PendingIntent action1, PendingIntent action2) {
+        // SET UP ChannelID and Notification priority
+        int priority = bundle.getInt(PRIORITY);
+        String channelId = "";
+        int notificationPriority = -1;
+        switch (priority) {
+            case 1:
+                channelId = "minPriorityChannel";
+                notificationPriority = NotificationCompat.PRIORITY_MIN;
+                break;
+            case 2:
+                channelId = "lowPriorityChannel";
+                notificationPriority = NotificationCompat.PRIORITY_LOW;
+                break;
+            case 3:
+                channelId = "defaultPriorityChannel";
+                notificationPriority = NotificationCompat.PRIORITY_DEFAULT;
+                break;
+            case 4:
+                channelId = "highPriorityChannel";
+                notificationPriority = NotificationCompat.PRIORITY_HIGH;
+                break;
+        }
+
+        PendingIntent openDetailsPendInt = createAction(DETAILS_TASK_F,bundle,context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,channelId)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle(bundle.getString(CONTENT_TITLE))
+                .setContentText(bundle.getString(CONTENT_TEXT))
+                .addAction(0,"POSTPONE",action1);
+                if(ONGOING.equals(mIntent.getAction()))
+                    builder.addAction(0,"COMPLETE",action2);
+                else
+                    builder.addAction(0,"ONGOING",action2);
+                builder.setContentIntent(openDetailsPendInt)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        return builder.build();
+    }
 }

@@ -15,6 +15,7 @@ import it.guaraldi.to_dotaskmanager.data.local.LocalDataSource;
 import it.guaraldi.to_dotaskmanager.data.local.dao.TaskDao;
 import it.guaraldi.to_dotaskmanager.data.remote.RemoteDataSource;
 
+import it.guaraldi.to_dotaskmanager.notification.NotificationIntentService;
 import it.guaraldi.to_dotaskmanager.utils.AppExecutors;
 
 
@@ -61,6 +62,7 @@ public class AppModule {
     public TaskDao providesTaskDao(TaskDatabase localDataSource) {
         return localDataSource.getTaskDao();
     }
+
 
     @Singleton
     @Provides

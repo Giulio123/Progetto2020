@@ -3,6 +3,7 @@ package it.guaraldi.to_dotaskmanager.di.component;
 import it.guaraldi.to_dotaskmanager.di.module.NewsModule;
 import it.guaraldi.to_dotaskmanager.di.scope.NewsScope;
 import dagger.Component;
+import it.guaraldi.to_dotaskmanager.notification.NotificationIntentService;
 import it.guaraldi.to_dotaskmanager.notification.NotificationReceiver;
 import it.guaraldi.to_dotaskmanager.taskdetails.TaskDetailsFragment;
 import it.guaraldi.to_dotaskmanager.ui.calendar.CalendarFragment;
@@ -25,4 +26,5 @@ public interface NewsComponent {
     void inject(TaskDetailsFragment taskDetailsFragment);
     void inject(NotificationReceiver notificationReceiver);
     void inject(GraphicFragment graphicFragment);
+    void inject(NotificationIntentService intentService);
 }

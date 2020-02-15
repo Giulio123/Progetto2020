@@ -51,7 +51,7 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
     }
 
     @Override
-    public void saveNewTask(String title, String email, boolean allDay, int priority, String category, String dateStart,
+    public void saveNewTask(int id, String title, String email, boolean allDay, int priority, String category, String dateStart,
                             String timeStart, String dateEnd, String timeEnd, String reply, boolean isReply, String description,
                             String color, PersonalizedInstanceState personalizedInstance, ChildPersonalizedInstanceState childPersonalizedInstance) {
 
@@ -82,6 +82,7 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
                     String groupId = UUID.randomUUID().toString();
                     Task task = new Task(Integer.toString(mCurrentTaskId), title, email, allDay,groupId, priority,
                             category,"PENDING", start,end,"0,0","0,0",description,color);
+
                     Log.d(TAG, "saveNewTask: start="+DateUtils.longToStringCompleteInformationDate(Long.parseLong(start)));
                     Log.d(TAG, "saveNewTask: getMonthSpinnerId="+childPersonalizedInstance.getMonthSpinnerId());
                     Log.d(TAG, "saveNewTask: getMonthSpinner="+childPersonalizedInstance.getMonthSpinner());
@@ -174,10 +175,15 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
                 }
             }
         }
-
-         Task task = new Task(String.valueOf(mCurrentTaskId),title,email,allDay,String.valueOf(mCurrentTaskId),priority,
+        Task task;
+         if (id==-1)
+            task = new Task(String.valueOf(mCurrentTaskId),title,email,allDay,String.valueOf(mCurrentTaskId),priority,
                 category,"PENDING",start,end,"0.0","0.0",
                 description,color);
+         else
+             task = new Task(String.valueOf(id),title,email,allDay,String.valueOf(mCurrentTaskId),priority,
+                     category,"PENDING",start,end,"0.0","0.0",
+                     description,color);
         Log.d(TAG, "saveNewTask: TASK DATE==="+DateUtils.longToStringCompleteInformationDate(Long.valueOf(start)));
         mRepository.createTask(task, new TasksDataSource.DBCallback() {
             @Override
@@ -186,7 +192,7 @@ public class EditTaskPresenter extends BasePresenter<EditTaskContract.View> impl
                 String duration = "Today at "+timeStart+" to "+timeEnd;
                 updateCurrentTaskId();
 
-                mView.showCalendarView(task, Long.parseLong(start));
+                mView.showCalendarView(task, Long.parseLong(start),duration);
             }
 
             @Override

@@ -42,7 +42,9 @@
 
         <service
             android:name=".notification.NotificationIntentService"
-            android:exported="false"/>
+            android:exported="false">
+
+        </service>
     </application>
 
 </manifest>
